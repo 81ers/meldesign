@@ -41,13 +41,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Web3Forms'a gönderilecek FormData - Web3Forms formatına uygun
-    const web3FormsData = new FormData()
-    web3FormsData.append('access_key', accessKey)
-    web3FormsData.append('subject', `Yeni Teklif Talebi - ${adSoyad}`)
-    web3FormsData.append('name', adSoyad)
-    web3FormsData.append('email', email)
-    web3FormsData.append('message', `
+    // Web3Forms'a gönderilecek veri - JSON formatında (Cloudflare korumasını geçmek için)
+    const web3FormsPayload = {
+      access_key: accessKey,
+      subject: `Yeni Teklif Talebi - ${adSoyad}`,
+      name: adSoyad,
+      email: email,
+      message: `
 Yeni Teklif Talebi
 
 Mekan Türü: ${mekanTuru}
@@ -55,20 +55,25 @@ Mekan Alanı: ${mekanAlani}
 Ad Soyad: ${adSoyad}
 Email: ${email}
 Telefon: ${telefon || 'Belirtilmemiş'}
-    `.trim())
-    // Ekstra alanlar
-    web3FormsData.append('Mekan Türü', mekanTuru)
-    web3FormsData.append('Mekan Alanı', mekanAlani)
-    web3FormsData.append('Telefon', telefon || 'Belirtilmemiş')
+      `.trim(),
+      // Ekstra alanlar
+      'Mekan Türü': mekanTuru,
+      'Mekan Alanı': mekanAlani,
+      'Telefon': telefon || 'Belirtilmemiş',
+    }
 
     console.log('Web3Forms gönderiliyor:', { name: adSoyad, email: email })
 
-    // Web3Forms API'sine istek gönder - FormData formatında
+    // Web3Forms API'sine istek gönder - JSON formatında
     let response: Response
     try {
       response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: web3FormsData,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(web3FormsPayload),
       })
     } catch (fetchError) {
       console.error('Web3Forms fetch hatası:', fetchError)
