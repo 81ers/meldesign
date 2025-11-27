@@ -36,7 +36,7 @@ export default function TeklifAlin() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     
     if (!validateForm()) {
@@ -47,15 +47,17 @@ export default function TeklifAlin() {
     setSubmitStatus(null)
 
     try {
+      // FormData oluştur - Web3Forms formatına uygun
+      const formDataToSend = new FormData(e.currentTarget)
+      
       const response = await fetch('/api/teklif-gonder', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       })
 
-      if (response.ok) {
+      const data = await response.json()
+
+      if (data.success) {
         setSubmitStatus('success')
         setFormData({
           mekanTuru: '',
@@ -64,6 +66,7 @@ export default function TeklifAlin() {
           email: '',
           telefon: '',
         })
+        e.currentTarget.reset()
       } else {
         setSubmitStatus('error')
       }
