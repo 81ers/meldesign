@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
     const formData = {
       access_key: accessKey,
       subject: `Yeni Teklif Talebi - ${adSoyad}`,
+      to: '8881eren@gmail.com',
       name: adSoyad,
       email: email,
       message: `
