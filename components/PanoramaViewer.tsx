@@ -172,6 +172,11 @@ export default function PanoramaViewer({ imageSrc, title }: PanoramaViewerProps)
           containerRef.current.innerHTML = ''
         }
 
+        // Container kontrolü
+        if (!containerRef.current) {
+          throw new Error('Container bulunamadı')
+        }
+
         // Viewer oluştur
         const viewer = new window.PANOLENS.Viewer({
           container: containerRef.current,
@@ -180,6 +185,11 @@ export default function PanoramaViewer({ imageSrc, title }: PanoramaViewerProps)
           controlBar: true,
           cameraFov: 75,
         })
+
+        // Viewer'ın düzgün oluşturulduğunu kontrol et
+        if (!viewer || !viewer.container) {
+          throw new Error('Viewer oluşturulamadı')
+        }
 
         // Panolens'in kendi zoom kontrolünü devre dışı bırak
         if (viewer.OrbitControls) {
@@ -193,7 +203,7 @@ export default function PanoramaViewer({ imageSrc, title }: PanoramaViewerProps)
         const handleWheel = (event: WheelEvent) => {
           event.preventDefault()
           event.stopPropagation()
-          if (viewer.camera) {
+          if (viewer && viewer.camera && containerRef.current) {
             const fov = viewer.camera.fov
             // Geriye scroll (deltaY pozitif) = zoom out (fov artmalı)
             // İleriye scroll (deltaY negatif) = zoom in (fov azalmalı)
@@ -204,19 +214,29 @@ export default function PanoramaViewer({ imageSrc, title }: PanoramaViewerProps)
         }
         
         wheelHandlerRef.current = handleWheel
-        containerRef.current.addEventListener('wheel', handleWheel, { passive: false, capture: true })
+        if (containerRef.current) {
+          containerRef.current.addEventListener('wheel', handleWheel, { passive: false, capture: true })
+        }
 
         // Panorama oluştur - tam yol kullan
         const fullImagePath = imageSrc.startsWith('/') 
           ? imageSrc 
           : `/${imageSrc}`
         
+        if (!window.PANOLENS.ImagePanorama) {
+          throw new Error('Panolens ImagePanorama bulunamadı')
+        }
+
         const panorama = new window.PANOLENS.ImagePanorama(fullImagePath)
+
+        if (!panorama) {
+          throw new Error('Panorama oluşturulamadı')
+        }
 
         // Panorama yükleme event'leri
         panorama.addEventListener('load', () => {
           console.log('Panorama yüklendi:', fullImagePath)
-          if (isMounted) {
+          if (isMounted && viewer) {
             setIsLoading(false)
             setError(null)
           }
@@ -235,13 +255,21 @@ export default function PanoramaViewer({ imageSrc, title }: PanoramaViewerProps)
         })
 
         // Viewer'a panorama ekle
-        viewer.add(panorama)
+        if (viewer && viewer.add) {
+          viewer.add(panorama)
+        } else {
+          throw new Error('Viewer add metodu bulunamadı')
+        }
 
         viewerRef.current = viewer
 
         // Viewer'ın render'ını başlat
-        if (viewer && viewer.render) {
-          viewer.render()
+        if (viewer && typeof viewer.render === 'function') {
+          try {
+            viewer.render()
+          } catch (renderError) {
+            console.warn('Viewer render hatası:', renderError)
+          }
         }
       } catch (err) {
         console.error('Viewer oluşturma hatası:', err)

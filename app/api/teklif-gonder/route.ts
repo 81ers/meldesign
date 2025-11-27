@@ -28,8 +28,9 @@ export async function POST(request: NextRequest) {
       access_key: accessKey,
       subject: `Yeni Teklif Talebi - ${adSoyad}`,
       from_name: 'mel design studio',
-      email: 'info@meldesign.tr',
+      to: 'info@meldesign.tr',
       name: adSoyad,
+      email: email,
       message: `
 Yeni Teklif Talebi
 
@@ -55,6 +56,15 @@ Telefon: ${telefon || 'Belirtilmemiş'}
       body: JSON.stringify(formData),
     })
 
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('Web3Forms HTTP hatası:', response.status, errorText)
+      return NextResponse.json(
+        { error: 'Email gönderilirken bir hata oluştu' },
+        { status: 500 }
+      )
+    }
+
     const result = await response.json()
 
     if (result.success) {
@@ -62,7 +72,7 @@ Telefon: ${telefon || 'Belirtilmemiş'}
     } else {
       console.error('Web3Forms hatası:', result)
       return NextResponse.json(
-        { error: 'Email gönderilirken bir hata oluştu' },
+        { error: result.message || 'Email gönderilirken bir hata oluştu' },
         { status: 500 }
       )
     }
