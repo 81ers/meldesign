@@ -50,7 +50,18 @@ export default function TeklifAlin() {
       // FormData oluştur - Web3Forms formatına uygun
       const formDataToSend = new FormData(e.currentTarget)
       
-      const response = await fetch('/api/teklif-gonder', {
+      // Access key'i ekle (client-side'dan direkt Web3Forms'a gönder)
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
+      if (!accessKey) {
+        console.error('NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY bulunamadı')
+        setSubmitStatus('error')
+        return
+      }
+      
+      formDataToSend.append('access_key', accessKey)
+      
+      // Web3Forms API'sine direkt istek gönder (Cloudflare korumasını geçmek için)
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         body: formDataToSend,
       })
@@ -68,9 +79,11 @@ export default function TeklifAlin() {
         })
         e.currentTarget.reset()
       } else {
+        console.error('Web3Forms hatası:', data)
         setSubmitStatus('error')
       }
     } catch (error) {
+      console.error('Form gönderme hatası:', error)
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
