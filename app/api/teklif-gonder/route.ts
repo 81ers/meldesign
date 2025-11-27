@@ -45,7 +45,6 @@ export async function POST(request: NextRequest) {
     const web3FormsData = new FormData()
     web3FormsData.append('access_key', accessKey)
     web3FormsData.append('subject', `Yeni Teklif Talebi - ${adSoyad}`)
-    web3FormsData.append('to', '8881eren@gmail.com')
     web3FormsData.append('name', adSoyad)
     web3FormsData.append('email', email)
     web3FormsData.append('message', `
@@ -79,20 +78,34 @@ Telefon: ${telefon || 'Belirtilmemiş'}
       )
     }
 
+    // Response'u kontrol et ve uygun şekilde oku
+    const contentType = response.headers.get('content-type') || ''
     let result: any
-    try {
-      result = await response.json()
-    } catch (jsonError) {
-      console.error('Web3Forms JSON parse hatası:', jsonError)
+    
+    if (contentType.includes('application/json')) {
+      try {
+        result = await response.json()
+        console.log('Web3Forms JSON yanıtı:', { status: response.status, result })
+      } catch (jsonError) {
+        console.error('Web3Forms JSON parse hatası:', jsonError)
+        return NextResponse.json(
+          { error: 'Web3Forms yanıtı parse edilemedi' },
+          { status: 500 }
+        )
+      }
+    } else {
+      // HTML veya başka bir format döndüyse
       const textResponse = await response.text()
-      console.error('Web3Forms text yanıtı:', textResponse)
+      console.error('Web3Forms HTML/text yanıtı:', { 
+        status: response.status, 
+        contentType,
+        response: textResponse.substring(0, 500) // İlk 500 karakter
+      })
       return NextResponse.json(
-        { error: 'Web3Forms yanıtı okunamadı' },
+        { error: 'Web3Forms beklenmeyen yanıt döndü' },
         { status: 500 }
       )
     }
-    
-    console.log('Web3Forms yanıtı:', { status: response.status, result })
 
     if (result.success) {
       return NextResponse.json({ success: true }, { status: 200 })
