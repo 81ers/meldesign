@@ -3,16 +3,28 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(request: NextRequest) {
   try {
     // FormData'yı parse et
-    const formData = await request.formData()
+    let formData: FormData
+    try {
+      formData = await request.formData()
+    } catch (parseError) {
+      console.error('FormData parse hatası:', parseError)
+      return NextResponse.json(
+        { error: 'Form verileri okunamadı' },
+        { status: 400 }
+      )
+    }
     
-    const mekanTuru = formData.get('mekanTuru') as string
-    const mekanAlani = formData.get('mekanAlani') as string
-    const adSoyad = formData.get('adSoyad') as string
-    const email = formData.get('email') as string
-    const telefon = formData.get('telefon') as string
+    const mekanTuru = formData.get('mekanTuru') as string | null
+    const mekanAlani = formData.get('mekanAlani') as string | null
+    const adSoyad = formData.get('adSoyad') as string | null
+    const email = formData.get('email') as string | null
+    const telefon = formData.get('telefon') as string | null
+
+    console.log('Form verileri alındı:', { mekanTuru, mekanAlani, adSoyad, email, telefon })
 
     // Validation
     if (!mekanTuru || !mekanAlani || !adSoyad || !email) {
+      console.error('Validation hatası - eksik alanlar:', { mekanTuru, mekanAlani, adSoyad, email })
       return NextResponse.json(
         { error: 'Tüm zorunlu alanlar doldurulmalıdır' },
         { status: 400 }
@@ -53,12 +65,32 @@ Telefon: ${telefon || 'Belirtilmemiş'}
     console.log('Web3Forms gönderiliyor:', { name: adSoyad, email: email })
 
     // Web3Forms API'sine istek gönder - FormData formatında
-    const response = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      body: web3FormsData,
-    })
+    let response: Response
+    try {
+      response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: web3FormsData,
+      })
+    } catch (fetchError) {
+      console.error('Web3Forms fetch hatası:', fetchError)
+      return NextResponse.json(
+        { error: 'Web3Forms API\'sine bağlanılamadı' },
+        { status: 500 }
+      )
+    }
 
-    const result = await response.json()
+    let result: any
+    try {
+      result = await response.json()
+    } catch (jsonError) {
+      console.error('Web3Forms JSON parse hatası:', jsonError)
+      const textResponse = await response.text()
+      console.error('Web3Forms text yanıtı:', textResponse)
+      return NextResponse.json(
+        { error: 'Web3Forms yanıtı okunamadı' },
+        { status: 500 }
+      )
+    }
     
     console.log('Web3Forms yanıtı:', { status: response.status, result })
 
@@ -72,9 +104,10 @@ Telefon: ${telefon || 'Belirtilmemiş'}
       )
     }
   } catch (error) {
-    console.error('Email gönderme hatası:', error)
+    console.error('Email gönderme hatası (catch):', error)
+    const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata'
     return NextResponse.json(
-      { error: 'Email gönderilirken bir hata oluştu' },
+      { error: `Email gönderilirken bir hata oluştu: ${errorMessage}` },
       { status: 500 }
     )
   }
