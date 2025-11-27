@@ -23,12 +23,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Web3Forms'a gönderilecek veri
+    // Web3Forms'a gönderilecek veri - Web3Forms formatına uygun
     const formData = {
       access_key: accessKey,
       subject: `Yeni Teklif Talebi - ${adSoyad}`,
-      from_name: 'mel design studio',
-      to: 'info@meldesign.tr',
       name: adSoyad,
       email: email,
       message: `
@@ -46,6 +44,8 @@ Telefon: ${telefon || 'Belirtilmemiş'}
       'Telefon': telefon || 'Belirtilmemiş',
     }
 
+    console.log('Web3Forms gönderiliyor:', { name: adSoyad, email: email })
+
     // Web3Forms API'sine istek gönder
     const response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
@@ -56,21 +56,22 @@ Telefon: ${telefon || 'Belirtilmemiş'}
       body: JSON.stringify(formData),
     })
 
+    const result = await response.json()
+    
+    console.log('Web3Forms yanıtı:', { status: response.status, result })
+
     if (!response.ok) {
-      const errorText = await response.text()
-      console.error('Web3Forms HTTP hatası:', response.status, errorText)
+      console.error('Web3Forms HTTP hatası:', response.status, result)
       return NextResponse.json(
-        { error: 'Email gönderilirken bir hata oluştu' },
+        { error: result.message || 'Email gönderilirken bir hata oluştu' },
         { status: 500 }
       )
     }
 
-    const result = await response.json()
-
     if (result.success) {
       return NextResponse.json({ success: true }, { status: 200 })
     } else {
-      console.error('Web3Forms hatası:', result)
+      console.error('Web3Forms başarısız:', result)
       return NextResponse.json(
         { error: result.message || 'Email gönderilirken bir hata oluştu' },
         { status: 500 }
