@@ -77,7 +77,7 @@ export default function Home() {
         {/* Hero Content */}
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 animate-fade-in">
-            Mel Design
+            mel design studio
           </h1>
           <p className="text-xl md:text-2xl text-white/90 mb-8 font-light">
             Zarif ve modern iç mimarlık çözümleri
@@ -160,7 +160,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               href="/projeler"
-              className="inline-block px-8 py-3 bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors duration-200"
+              className="inline-block px-8 py-3 bg-red-950 text-white font-medium hover:bg-red-900 transition-colors duration-200"
             >
               Tüm Projeleri Görüntüle
             </Link>
@@ -168,48 +168,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Quick Links Section */}
-      <section className="py-24 bg-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Link
-              href="/hakkimizda"
-              className="bg-transparent p-8 hover:shadow-lg transition-shadow duration-300"
-            >
-              <h3 className="text-2xl font-serif font-bold text-white mb-4 drop-shadow-lg">
-                Biz Kimiz?
-              </h3>
-              <p className="text-white/90 drop-shadow-md">
-                Tasarım yaklaşımımız ve ekibimiz hakkında daha fazla bilgi edinin
-              </p>
-            </Link>
-
-            <Link
-              href="/hizmetler"
-              className="bg-transparent p-8 hover:shadow-lg transition-shadow duration-300"
-            >
-              <h3 className="text-2xl font-serif font-bold text-white mb-4 drop-shadow-lg">
-                Hizmetlerimiz
-              </h3>
-              <p className="text-white/90 drop-shadow-md">
-                Sunduğumuz profesyonel iç mimarlık hizmetlerini keşfedin
-              </p>
-            </Link>
-
-            <Link
-              href="/iletisim"
-              className="bg-transparent p-8 hover:shadow-lg transition-shadow duration-300"
-            >
-              <h3 className="text-2xl font-serif font-bold text-white mb-4 drop-shadow-lg">
-                İletişim
-              </h3>
-              <p className="text-white/90 drop-shadow-md">
-                Projeleriniz için bizimle iletişime geçin
-              </p>
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }

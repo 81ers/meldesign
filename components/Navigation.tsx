@@ -25,11 +25,11 @@ export default function Navigation() {
 
   const navItems = [
     { href: '/', label: 'Ana Sayfa' },
-    { href: '/hakkimizda', label: 'Hakkımızda' },
     { href: '/projeler', label: 'Projeler' },
     { href: '/hizmetler', label: 'Hizmetler' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/referanslar', label: 'Referanslar' },
+    { href: '/yorumlar', label: 'Müşteri Yorumları' },
+    { href: '/teklif-alin', label: 'Teklif Alın', isSpecial: true },
+    { href: '/hakkimizda', label: 'Hakkımızda' },
     { href: '/iletisim', label: 'İletişim' },
   ]
 
@@ -47,7 +47,7 @@ export default function Navigation() {
             <span className={`text-2xl font-serif font-bold ${
               pathname === '/' && !isScrolled ? 'text-white' : 'text-gray-900'
             }`}>
-              Mel Design
+              mel design studio
             </span>
           </Link>
 
@@ -58,7 +58,11 @@ export default function Navigation() {
                 key={item.href}
                 href={item.href}
                 className={`text-sm font-medium transition-colors duration-200 ${
-                  pathname === '/' && !isScrolled
+                  item.isSpecial
+                    ? pathname === '/' && !isScrolled
+                      ? 'px-4 py-2 border-2 border-red-900 text-white hover:bg-red-900/20'
+                      : 'px-4 py-2 border-2 border-red-900 text-red-900 hover:bg-red-900 hover:text-white'
+                    : pathname === '/' && !isScrolled
                     ? pathname === item.href
                       ? 'text-white border-b-2 border-white'
                       : 'text-white hover:text-white/80'
@@ -105,7 +109,9 @@ export default function Navigation() {
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`block px-4 py-2 text-sm font-medium ${
-                  pathname === item.href
+                  item.isSpecial
+                    ? 'mx-4 my-2 text-center border-2 border-red-900 text-red-900 hover:bg-red-900 hover:text-white'
+                    : pathname === item.href
                     ? 'text-gray-900 bg-gray-50'
                     : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
                 }`}

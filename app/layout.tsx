@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Mel Design - İç Mimarlık Ofisi',
+  title: 'mel design studio - İç Mimarlık Ofisi',
   description: 'Zarif ve modern iç mimarlık çözümleri',
 }
 

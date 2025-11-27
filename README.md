@@ -1,4 +1,4 @@
-# Mel Design - İç Mimarlık Ofisi Web Sayfası
+# mel design studio - İç Mimarlık Ofisi Web Sayfası
 
 Next.js kullanılarak geliştirilmiş zarif ve modern bir iç mimarlık ofisi web sayfası.
 
@@ -9,7 +9,7 @@ Next.js kullanılarak geliştirilmiş zarif ve modern bir iç mimarlık ofisi we
 - **Projeler**: Panoramik görüntülerle interaktif proje galerisi
 - **Hizmetler**: Sunulan profesyonel hizmetler
 - **Blog**: Tasarım trendleri ve haberler
-- **Referanslar**: Müşteri yorumları ve çalışılan markalar
+- **Yorumlar**: Müşteri yorumları ve çalışılan markalar
 - **İletişim**: İletişim formu ve bilgileri
 
 ## Teknolojiler
@@ -45,7 +45,7 @@ meldesigntr/
 │   ├── projeler/          # Projeler sayfası
 │   ├── hizmetler/         # Hizmetler sayfası
 │   ├── blog/              # Blog sayfası
-│   ├── referanslar/       # Referanslar sayfası
+│   ├── yorumlar/       # Yorumlar sayfası
 │   └── iletisim/          # İletişim sayfası
 ├── components/            # React bileşenleri
 │   ├── Navigation.tsx     # Navigasyon menüsü

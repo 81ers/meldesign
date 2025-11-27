@@ -42,7 +42,7 @@ export default function ProjelerPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="bg-gray-900 text-white py-24">
+      <section className="bg-red-950 text-white py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
             Projelerimiz
@@ -107,4 +107,7 @@ export default function ProjelerPage() {
     </div>
   )
 }
+
+
+
 

@@ -29,7 +29,7 @@ export default function IletisimPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="bg-gray-900 text-white py-24">
+      <section className="bg-red-950 text-white py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
             İletişim
@@ -157,7 +157,7 @@ export default function IletisimPage() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full px-8 py-3 bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors duration-200"
+                  className="w-full px-8 py-3 bg-red-950 text-white font-medium hover:bg-red-900 transition-colors duration-200"
                 >
                   Gönder
                 </button>
@@ -169,4 +169,7 @@ export default function IletisimPage() {
     </div>
   )
 }
+
+
+
 
