@@ -2,7 +2,7 @@ export default function HakkimizdaPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="bg-red-950 text-white py-24">
+      <section className="bg-vizon-800 text-white py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
             Hakkımızda

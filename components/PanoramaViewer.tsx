@@ -307,13 +307,13 @@ export default function PanoramaViewer({ imageSrc, title }: PanoramaViewerProps)
           {title}
         </h3>
       )}
-      <div className="relative w-full rounded-lg overflow-hidden bg-red-950" style={{ height: '600px' }}>
+      <div className="relative w-full rounded-lg overflow-hidden bg-vizon-800" style={{ height: '600px' }}>
         <div
           ref={containerRef}
           className="w-full h-full"
         />
         {isLoading && !error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-red-950 z-10">
+          <div className="absolute inset-0 flex items-center justify-center bg-vizon-800 z-10">
             <div className="text-white text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
               <p>Yükleniyor...</p>
@@ -321,9 +321,9 @@ export default function PanoramaViewer({ imageSrc, title }: PanoramaViewerProps)
           </div>
         )}
         {error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-red-950 z-10">
+          <div className="absolute inset-0 flex items-center justify-center bg-vizon-800 z-10">
             <div className="text-white text-center px-4">
-              <p className="mb-2 text-red-400">{error}</p>
+              <p className="mb-2 text-vizon-200">{error}</p>
               <p className="text-sm text-gray-400">Resim yolu: {imageSrc}</p>
               <p className="text-xs text-gray-500 mt-2">Tarayıcı konsolunu kontrol edin (F12)</p>
             </div>

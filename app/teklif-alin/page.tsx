@@ -5,6 +5,7 @@ import { useState, FormEvent } from 'react'
 export default function TeklifAlin() {
   const [formData, setFormData] = useState({
     mekanTuru: '',
+    mekanTuruDiger: '',
     mekanAlani: '',
     adSoyad: '',
     email: '',
@@ -19,6 +20,9 @@ export default function TeklifAlin() {
     
     if (!formData.mekanTuru) {
       newErrors.mekanTuru = 'Mekan türü seçimi zorunludur'
+    }
+    if (formData.mekanTuru === 'Diğer' && !formData.mekanTuruDiger.trim()) {
+      newErrors.mekanTuruDiger = 'Lütfen mekan türünü belirtin'
     }
     if (!formData.mekanAlani) {
       newErrors.mekanAlani = 'Mekan alanı seçimi zorunludur'
@@ -72,6 +76,7 @@ export default function TeklifAlin() {
         setSubmitStatus('success')
         setFormData({
           mekanTuru: '',
+          mekanTuruDiger: '',
           mekanAlani: '',
           adSoyad: '',
           email: '',
@@ -120,7 +125,7 @@ export default function TeklifAlin() {
                 name="mekanTuru"
                 value={formData.mekanTuru}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-950 ${
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-vizon-700 ${
                   errors.mekanTuru ? 'border-red-500' : 'border-gray-300'
                 }`}
               >
@@ -135,6 +140,27 @@ export default function TeklifAlin() {
               {errors.mekanTuru && (
                 <p className="mt-1 text-sm text-red-600">{errors.mekanTuru}</p>
               )}
+              {formData.mekanTuru === 'Diğer' && (
+                <div className="mt-4">
+                  <label htmlFor="mekanTuruDiger" className="block text-sm font-medium text-gray-700 mb-2">
+                    Mekan Türü İsmi
+                  </label>
+                  <input
+                    type="text"
+                    id="mekanTuruDiger"
+                    name="mekanTuruDiger"
+                    value={formData.mekanTuruDiger}
+                    onChange={handleChange}
+                    className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-vizon-700 ${
+                      errors.mekanTuruDiger ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                    placeholder="Örn. Klinik, Atölye..."
+                  />
+                  {errors.mekanTuruDiger && (
+                    <p className="mt-1 text-sm text-red-600">{errors.mekanTuruDiger}</p>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Mekan Alanı */}
@@ -147,7 +173,7 @@ export default function TeklifAlin() {
                 name="mekanAlani"
                 value={formData.mekanAlani}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-950 ${
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-vizon-700 ${
                   errors.mekanAlani ? 'border-red-500' : 'border-gray-300'
                 }`}
               >
@@ -173,7 +199,7 @@ export default function TeklifAlin() {
                 name="adSoyad"
                 value={formData.adSoyad}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-950 ${
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-vizon-700 ${
                   errors.adSoyad ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -193,7 +219,7 @@ export default function TeklifAlin() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-950 ${
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-vizon-700 ${
                   errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
@@ -213,7 +239,7 @@ export default function TeklifAlin() {
                 name="telefon"
                 value={formData.telefon}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-950"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-vizon-700"
               />
             </div>
 
@@ -221,7 +247,7 @@ export default function TeklifAlin() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-8 py-3 bg-red-950 text-white font-medium hover:bg-red-900 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-8 py-3 bg-vizon-700 text-white font-medium hover:bg-vizon-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Gönderiliyor...' : 'Mekan Bilgilerimi Gönder'}
             </button>

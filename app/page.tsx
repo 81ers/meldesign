@@ -160,7 +160,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               href="/projeler"
-              className="inline-block px-8 py-3 bg-red-950 text-white font-medium hover:bg-red-900 transition-colors duration-200"
+              className="inline-block px-8 py-3 bg-vizon-700 text-white font-medium hover:bg-vizon-600 transition-colors duration-200"
             >
               Tüm Projeleri Görüntüle
             </Link>
