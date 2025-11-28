@@ -6,31 +6,31 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-serif font-bold text-gray-800 mb-4">
+            <h3 className="text-xl font-serif font-bold text-gray-900 mb-4">
               mel design studio
             </h3>
           </div>
           
           <div>
-            <h4 className="text-sm font-semibold text-gray-800 mb-4">Hızlı Linkler</h4>
+            <h4 className="text-sm font-semibold text-gray-900 mb-4">Hızlı Linkler</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/hakkimizda" className="text-gray-700 hover:text-gray-900 transition-colors">
+                <Link href="/hakkimizda" className="hover:text-white transition-colors">
                   Hakkımızda
                 </Link>
               </li>
               <li>
-                <Link href="/projeler" className="text-gray-700 hover:text-gray-900 transition-colors">
+                <Link href="/projeler" className="hover:text-white transition-colors">
                   Projeler
                 </Link>
               </li>
               <li>
-                <Link href="/hizmetler" className="text-gray-700 hover:text-gray-900 transition-colors">
+                <Link href="/hizmetler" className="hover:text-white transition-colors">
                   Hizmetler
                 </Link>
               </li>
               <li>
-                <Link href="/iletisim" className="text-gray-700 hover:text-gray-900 transition-colors">
+                <Link href="/iletisim" className="hover:text-white transition-colors">
                   İletişim
                 </Link>
               </li>
@@ -38,12 +38,12 @@ export default function Footer() {
           </div>
           
           <div>
-            <h4 className="text-sm font-semibold text-gray-800 mb-4">İletişim</h4>
-            <ul className="space-y-2 text-sm text-gray-700">
+            <h4 className="text-sm font-semibold text-gray-900 mb-4">İletişim</h4>
+            <ul className="space-y-2 text-sm">
               <li>
                 <a
                   href="mailto:info@meldesign.tr"
-                  className="text-gray-700 hover:text-gray-900 transition-colors"
+                  className="hover:text-white transition-colors"
                 >
                   info@meldesign.tr
                 </a>
@@ -53,7 +53,7 @@ export default function Footer() {
                   href="https://wa.me/905416358881"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors"
+                  className="flex items-center gap-2 hover:text-white transition-colors"
                 >
                   <svg
                     className="w-5 h-5"
@@ -75,7 +75,7 @@ export default function Footer() {
                   href="https://www.instagram.com/meldesign.studio/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-700 hover:text-gray-900 transition-colors inline-flex items-center gap-2"
+                  className="hover:text-white transition-colors inline-flex items-center gap-2"
                 >
                   <svg
                     className="w-5 h-5"
@@ -92,10 +92,10 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-700">
+        <div className="mt-8 pt-8 border-t border-gray-800 text-center text-sm">
           <p>&copy; {new Date().getFullYear()} mel design studio. Tüm hakları saklıdır.</p>
           <p className="mt-2">
-            <Link href="/gizlilik-politikasi" className="text-gray-700 hover:text-gray-900 transition-colors">
+            <Link href="/gizlilik-politikasi" className="hover:text-white transition-colors">
               Gizlilik Politikası
             </Link>
           </p>

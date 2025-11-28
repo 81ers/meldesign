@@ -15,6 +15,7 @@ export default function TeklifAlin() {
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [kvkkOnay, setKvkkOnay] = useState(false)
+  const [showKvkkError, setShowKvkkError] = useState(false)
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -47,6 +48,17 @@ export default function TeklifAlin() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     
+    if (!kvkkOnay) {
+      setErrors(prev => ({ ...prev, kvkkOnay: 'Gizlilik politikasını kabul etmelisiniz' }))
+      // Animasyonu tetiklemek için state'i resetle
+      setShowKvkkError(false)
+      setTimeout(() => {
+        setShowKvkkError(true)
+        setTimeout(() => setShowKvkkError(false), 500)
+      }, 10)
+      return
+    }
+    
     if (!validateForm()) {
       return
     }
@@ -76,7 +88,8 @@ export default function TeklifAlin() {
 
       const data = await response.json()
 
-      if (data.success) {
+      // Web3Forms başarılı yanıt verirse veya response ok ise başarılı say
+      if (data.success || response.ok) {
         setSubmitStatus('success')
         setFormData({
           mekanTuru: '',
@@ -264,12 +277,12 @@ export default function TeklifAlin() {
                   className="mt-1 w-4 h-4 text-vizon-700 border-gray-300 rounded focus:ring-vizon-700"
                 />
                 <label htmlFor="kvkkOnay" className="text-sm text-gray-700">
-                  KVKK kapsamındaki{' '}
+                  <span className="text-red-600">*</span> KVKK kapsamındaki{' '}
                   <a
                     href="/gizlilik-politikasi"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-vizon-700 hover:text-vizon-800 underline font-medium"
+                    className="text-gray-800 hover:text-gray-900 underline font-medium"
                   >
                     Gizlilik Politikası
                   </a>
@@ -277,7 +290,14 @@ export default function TeklifAlin() {
                 </label>
               </div>
               {errors.kvkkOnay && (
-                <p className="mt-1 text-sm text-red-600">{errors.kvkkOnay}</p>
+                <p 
+                  key={`error-${showKvkkError}`}
+                  className={`mt-1 text-sm text-red-600 font-medium ${
+                    showKvkkError ? 'animate-error-flash' : ''
+                  }`}
+                >
+                  {errors.kvkkOnay}
+                </p>
               )}
             </div>
 
@@ -285,16 +305,19 @@ export default function TeklifAlin() {
             <button
               type="submit"
               disabled={isSubmitting || !kvkkOnay}
-              className="w-full px-8 py-3 bg-vizon-700 text-white font-medium hover:bg-vizon-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-8 py-3 bg-vizon-800 text-white font-medium hover:bg-vizon-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Gönderiliyor...' : 'Mekan Bilgilerimi Gönder'}
             </button>
 
             {/* Status Messages */}
             {submitStatus === 'success' && (
-              <div className="p-4 bg-green-50 border border-green-200 rounded-md">
-                <p className="text-green-800 text-sm">
-                  Teşekkürler! Bilgileriniz başarıyla gönderildi. En kısa sürede size dönüş yapacağız.
+              <div className="p-6 bg-green-50 border border-green-200 rounded-md">
+                <p className="text-green-800 text-base font-medium mb-2">
+                  Tebrikler, bilgileriniz başarılı bir şekilde tarafımıza ulaştı!
+                </p>
+                <p className="text-green-700 text-sm">
+                  Mekanınız hakkındaki teklifimizi iki iş günü içerisinde belirttiğiniz mail adresine ileteceğiz.
                 </p>
               </div>
             )}

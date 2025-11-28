@@ -135,7 +135,7 @@ export default function IletisimPage() {
                   </svg>
                   <span className="text-sm font-medium text-gray-700">Google Haritalar</span>
                 </a>
-              </div>
+                </div>
               <div className="relative w-full h-96 rounded-lg overflow-hidden mb-4">
                 <iframe
                   width="100%"
@@ -147,8 +147,8 @@ export default function IletisimPage() {
                   src={`https://www.openstreetmap.org/export/embed.html?bbox=${31.156708 - 0.01},${40.843823 - 0.01},${31.156708 + 0.01},${40.843823 + 0.01}&layer=mapnik&marker=40.843823,31.156708`}
                   style={{ border: 0 }}
                   allowFullScreen
-                />
-              </div>
+                  />
+                </div>
             </div>
           </div>
         </div>
