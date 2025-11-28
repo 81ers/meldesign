@@ -14,6 +14,7 @@ export default function TeklifAlin() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [kvkkOnay, setKvkkOnay] = useState(false)
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -34,6 +35,9 @@ export default function TeklifAlin() {
       newErrors.email = 'Email adresi zorunludur'
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Geçerli bir email adresi giriniz'
+    }
+    if (!kvkkOnay) {
+      newErrors.kvkkOnay = 'Gizlilik politikasını kabul etmelisiniz'
     }
 
     setErrors(newErrors)
@@ -82,6 +86,7 @@ export default function TeklifAlin() {
           email: '',
           telefon: '',
         })
+        setKvkkOnay(false)
         e.currentTarget.reset()
       } else {
         console.error('Web3Forms hatası:', data)
@@ -243,10 +248,43 @@ export default function TeklifAlin() {
               />
             </div>
 
+            {/* KVKK Onay */}
+            <div>
+              <div className="flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  id="kvkkOnay"
+                  checked={kvkkOnay}
+                  onChange={(e) => {
+                    setKvkkOnay(e.target.checked)
+                    if (errors.kvkkOnay) {
+                      setErrors(prev => ({ ...prev, kvkkOnay: '' }))
+                    }
+                  }}
+                  className="mt-1 w-4 h-4 text-vizon-700 border-gray-300 rounded focus:ring-vizon-700"
+                />
+                <label htmlFor="kvkkOnay" className="text-sm text-gray-700">
+                  KVKK kapsamındaki{' '}
+                  <a
+                    href="/gizlilik-politikasi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-vizon-700 hover:text-vizon-800 underline font-medium"
+                  >
+                    Gizlilik Politikası
+                  </a>
+                  'nı okudum, anladım ve kabul ediyorum.
+                </label>
+              </div>
+              {errors.kvkkOnay && (
+                <p className="mt-1 text-sm text-red-600">{errors.kvkkOnay}</p>
+              )}
+            </div>
+
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !kvkkOnay}
               className="w-full px-8 py-3 bg-vizon-700 text-white font-medium hover:bg-vizon-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Gönderiliyor...' : 'Mekan Bilgilerimi Gönder'}

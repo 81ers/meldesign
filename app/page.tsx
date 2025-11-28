@@ -162,7 +162,7 @@ export default function Home() {
               href="/projeler"
               className="inline-block px-8 py-3 bg-vizon-700 text-white font-medium hover:bg-vizon-600 transition-colors duration-200"
             >
-              Tüm Projeleri Görüntüle
+              Tüm Projelerimizi Görüntüleyin
             </Link>
           </div>
         </div>
