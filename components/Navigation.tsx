@@ -61,7 +61,7 @@ export default function Navigation() {
                   item.isSpecial
                     ? pathname === '/' && !isScrolled
                       ? 'px-4 py-2 border-2 border-vizon-700 text-white hover:bg-vizon-700/20'
-                      : 'px-4 py-2 border-2 border-vizon-700 text-vizon-700 hover:bg-vizon-700 hover:text-white'
+                      : 'px-4 py-2 border-2 border-vizon-700 text-gray-700 hover:bg-vizon-700 hover:text-white'
                     : pathname === '/' && !isScrolled
                     ? pathname === item.href
                       ? 'text-white border-b-2 border-white'
@@ -110,7 +110,7 @@ export default function Navigation() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`block px-4 py-2 text-sm font-medium ${
                   item.isSpecial
-                    ? 'mx-4 my-2 text-center border-2 border-vizon-700 text-vizon-700 hover:bg-vizon-700 hover:text-white'
+                    ? 'mx-4 my-2 text-center border-2 border-vizon-700 text-gray-700 hover:bg-vizon-700 hover:text-white'
                     : pathname === item.href
                     ? 'text-gray-900 bg-gray-50'
                     : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'

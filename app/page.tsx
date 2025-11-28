@@ -79,10 +79,10 @@ export default function Home() {
           <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 animate-fade-in">
             mel design studio
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-8 font-light">
+          <p className="text-xl md:text-2xl text-white mb-8 font-light">
             Zarif ve modern iç mimarlık çözümleri
           </p>
-          <p className="text-lg text-white/80 mb-12 max-w-2xl mx-auto">
+          <p className="text-lg text-white mb-12 max-w-2xl mx-auto">
             Yaratıcı tasarım anlayışımızla mekanlarınıza değer katıyoruz
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -160,7 +160,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               href="/projeler"
-              className="inline-block px-8 py-3 bg-vizon-700 text-white font-medium hover:bg-vizon-600 transition-colors duration-200"
+              className="inline-block px-8 py-3 bg-vizon-700 text-gray-900 font-medium hover:bg-vizon-600 transition-colors duration-200"
             >
               Tüm Projelerimizi Görüntüleyin
             </Link>

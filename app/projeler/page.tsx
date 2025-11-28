@@ -44,10 +44,10 @@ export default function ProjelerPage() {
       {/* Hero Section */}
       <section className="bg-vizon-800 text-white py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6 text-white">
             Projelerimiz
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-white max-w-2xl mx-auto">
             Yaratıcılığımızın ve uzmanlığımızın yansıması olan projelerimizi keşfedin
           </p>
         </div>
