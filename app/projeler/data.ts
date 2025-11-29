@@ -9,17 +9,6 @@ export interface Project {
   description: string
 }
 
-// Moodboard'ları en sona alan helper fonksiyon
-const sortImages = (images: string[]): string[] => {
-  const moodboardImages = images.filter(img => 
-    img.toLowerCase().includes('moodboard')
-  )
-  const otherImages = images.filter(img => 
-    !img.toLowerCase().includes('moodboard')
-  )
-  return [...otherImages, ...moodboardImages]
-}
-
 export const projects: Project[] = [
   {
     id: 1,
@@ -29,13 +18,13 @@ export const projects: Project[] = [
     folder: 'LINSSCONCEPT',
     slug: 'lins-concept',
     description: 'Modern ve şık bir mağaza tasarımı. LINS\'S CONCEPT, çağdaş alışveriş deneyimi sunan özenle tasarlanmış bir mekan.',
-    images: sortImages([
+    images: [
       "/projeler/LINSSCONCEPT/LINS2.png",
       "/projeler/LINSSCONCEPT/LINS3.png",
       "/projeler/LINSSCONCEPT/LINS4.png",
       "/projeler/LINSSCONCEPT/LINS5.png",
-      "/projeler/LINSSCONCEPT/LINS'S MOODBOARD.jpg",
-    ]),
+      "/projeler/LINSSCONCEPT/LINS6.png",
+    ],
   },
   {
     id: 2,
@@ -74,7 +63,7 @@ export const projects: Project[] = [
     folder: 'ganitabolu',
     slug: 'ganita',
     description: 'Sıcak ve davetkar bir restoran atmosferi. GANİTA, lezzetli yemeklerin yanı sıra estetik bir deneyim sunuyor.',
-    images: sortImages([
+    images: [
       "/projeler/ganitabolu/RENDER1.jpg",
       "/projeler/ganitabolu/RENDER2.jpg",
       "/projeler/ganitabolu/RENDER3.jpg",
@@ -92,8 +81,8 @@ export const projects: Project[] = [
       "/projeler/ganitabolu/RENDER22.jpg",
       "/projeler/ganitabolu/RENDER23.jpg",
       "/projeler/ganitabolu/RENDER25.jpg",
-      "/projeler/ganitabolu/RMoodboard.jpg",
-    ]),
+      "/projeler/ganitabolu/RENDER26.jpg",
+    ],
   },
   {
     id: 4,
@@ -128,4 +117,3 @@ export const projects: Project[] = [
     ],
   },
 ]
-

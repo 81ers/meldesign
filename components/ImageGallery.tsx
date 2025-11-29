@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 
 interface ImageGalleryProps {
@@ -12,27 +12,102 @@ interface ImageGalleryProps {
 
 export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0 }: ImageGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
+  const [prevIndex, setPrevIndex] = useState(initialIndex)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setCurrentIndex(initialIndex)
+    setPrevIndex(initialIndex)
   }, [initialIndex, isOpen])
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      // Fullscreen moduna geç
+      if (containerRef.current) {
+        const element = containerRef.current as HTMLElement & {
+          requestFullscreen?: () => Promise<void>
+        }
+        if (element.requestFullscreen) {
+          element.requestFullscreen().catch((err) => {
+            console.log('Fullscreen hatası:', err)
+          })
+        } else if ((element as any).webkitRequestFullscreen) {
+          (element as any).webkitRequestFullscreen()
+        } else if ((element as any).mozRequestFullScreen) {
+          (element as any).mozRequestFullScreen()
+        } else if ((element as any).msRequestFullscreen) {
+          (element as any).msRequestFullscreen()
+        }
+      }
     } else {
       document.body.style.overflow = 'unset'
+      // Fullscreen'den çık
+      if (document.fullscreenElement) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch((err) => {
+            console.log('Exit fullscreen hatası:', err)
+          })
+        } else if ((document as any).webkitExitFullscreen) {
+          (document as any).webkitExitFullscreen()
+        } else if ((document as any).mozCancelFullScreen) {
+          (document as any).mozCancelFullScreen()
+        } else if ((document as any).msExitFullscreen) {
+          (document as any).msExitFullscreen()
+        }
+      }
     }
     return () => {
       document.body.style.overflow = 'unset'
+      if (document.fullscreenElement) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {})
+        } else if ((document as any).webkitExitFullscreen) {
+          (document as any).webkitExitFullscreen()
+        } else if ((document as any).mozCancelFullScreen) {
+          (document as any).mozCancelFullScreen()
+        } else if ((document as any).msExitFullscreen) {
+          (document as any).msExitFullscreen()
+        }
+      }
     }
   }, [isOpen])
+
+  const handlePrevious = () => {
+    setPrevIndex(currentIndex)
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
+  }
+
+  const handleNext = () => {
+    setPrevIndex(currentIndex)
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
+  }
+
+  const handleIndexChange = (index: number) => {
+    if (index !== currentIndex) {
+      setPrevIndex(currentIndex)
+      setCurrentIndex(index)
+    }
+  }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return
       if (e.key === 'Escape') {
-        onClose()
+        // ESC ile fullscreen'den çık ve albümü kapat
+        if (document.fullscreenElement) {
+          if (document.exitFullscreen) {
+            document.exitFullscreen().then(() => {
+              onClose()
+            }).catch(() => {
+              onClose()
+            })
+          } else {
+            onClose()
+          }
+        } else {
+          onClose()
+        }
       } else if (e.key === 'ArrowLeft') {
         handlePrevious()
       } else if (e.key === 'ArrowRight') {
@@ -41,26 +116,46 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, currentIndex])
+  }, [isOpen, images.length, onClose])
+
+  // Fullscreen değişikliklerini dinle
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      // Eğer fullscreen'den çıkıldıysa albümü kapat
+      if (!document.fullscreenElement && isOpen) {
+        onClose()
+      }
+    }
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  }, [isOpen, onClose])
 
   if (!isOpen || images.length === 0) return null
 
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
-  }
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
-  }
-
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+      ref={containerRef}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black"
       onClick={onClose}
     >
       {/* Close Button */}
       <button
-        onClick={onClose}
+        onClick={(e) => {
+          e.stopPropagation()
+          if (document.fullscreenElement) {
+            if (document.exitFullscreen) {
+              document.exitFullscreen().then(() => {
+                onClose()
+              }).catch(() => {
+                onClose()
+              })
+            } else {
+              onClose()
+            }
+          } else {
+            onClose()
+          }
+        }}
         className="absolute top-4 right-4 z-10 text-white hover:text-gray-300 transition-colors"
         aria-label="Kapat"
       >
@@ -131,20 +226,39 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
         </button>
       )}
 
-      {/* Image Container */}
+      {/* Image Container - Tam Ekran */}
       <div
-        className="relative max-w-7xl w-full h-full flex items-center justify-center p-4"
+        className="relative w-full h-full flex items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative w-full max-h-[90vh] aspect-auto flex items-center justify-center">
-          <div className="relative w-full h-full min-h-[400px] max-h-[90vh]">
+        <div className="relative w-full h-full flex items-center justify-center">
+          {/* Önceki resim - fade out (sadece geçiş sırasında) */}
+          {prevIndex !== currentIndex && (
+            <div
+              key={`prev-${prevIndex}`}
+              className="absolute inset-0 w-full h-full animate-fade-out pointer-events-none"
+            >
+              <Image
+                src={images[prevIndex]}
+                alt={`Görüntü ${prevIndex + 1}`}
+                fill
+                className="object-contain"
+                sizes="100vw"
+              />
+            </div>
+          )}
+          {/* Yeni resim - fade in */}
+          <div
+            key={`current-${currentIndex}`}
+            className="absolute inset-0 w-full h-full animate-fade-in"
+          >
             <Image
               src={images[currentIndex]}
               alt={`Görüntü ${currentIndex + 1}`}
               fill
               className="object-contain"
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+              priority={currentIndex === initialIndex}
+              sizes="100vw"
             />
           </div>
         </div>
@@ -165,7 +279,7 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
               key={index}
               onClick={(e) => {
                 e.stopPropagation()
-                setCurrentIndex(index)
+                handleIndexChange(index)
               }}
               className={`relative w-20 h-20 flex-shrink-0 rounded overflow-hidden border-2 transition-all ${
                 currentIndex === index
@@ -186,4 +300,3 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
     </div>
   )
 }
-
