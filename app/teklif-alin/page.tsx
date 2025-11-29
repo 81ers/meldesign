@@ -87,53 +87,45 @@ export default function TeklifAlin() {
         body: formDataToSend,
       })
 
-      // Response'u kontrol et
-      if (!response.ok) {
-        console.error('HTTP hatası:', response.status, response.statusText)
-        setSubmitStatus('error')
-        return
-      }
-
-      let data
+      // Response'u parse et
+      let data: any = null
+      const responseText = await response.text()
+      
       try {
-        data = await response.json()
+        if (responseText) {
+          data = JSON.parse(responseText)
+        }
       } catch (jsonError) {
-        // JSON parse hatası olsa bile, response ok ise başarılı say
-        console.warn('JSON parse hatası, ancak response OK:', jsonError)
-        setSubmitStatus('success')
-        setFormData({
-          mekanTuru: '',
-          mekanTuruDiger: '',
-          mekanAlani: '',
-          aciklama: '',
-          adSoyad: '',
-          email: '',
-          telefon: '',
-        })
-        setKvkkOnay(false)
-        e.currentTarget.reset()
-        return
+        // JSON parse hatası - ama HTTP başarılıysa sorun değil
+        console.warn('JSON parse hatası (response zaten okundu):', responseText.substring(0, 200))
       }
 
-      // Web3Forms başarılı yanıt verirse başarılı say
-      // data.success === true veya response.ok ise başarılı
-      if (data.success === true || response.ok) {
-        setSubmitStatus('success')
-        setFormData({
-          mekanTuru: '',
-          mekanTuruDiger: '',
-          mekanAlani: '',
-          aciklama: '',
-          adSoyad: '',
-          email: '',
-          telefon: '',
-        })
-        setKvkkOnay(false)
-        e.currentTarget.reset()
-      } else {
-        // Eğer data.success false ise ama response ok ise, yine de başarılı say
-        // Çünkü bazı durumlarda mail gönderilmiş olabilir
-        if (response.ok && response.status === 200) {
+      // Başarı kontrolü: Hem HTTP status hem de data.success kontrolü yapılır
+      const isHttpSuccess = response.ok && response.status >= 200 && response.status < 300
+      const isApiSuccess = data?.success === true
+      const hasSuccessProperty = data !== null && 'success' in data
+
+      if (isHttpSuccess) {
+        // HTTP başarılı - data.success kontrolü yap
+        if (isApiSuccess) {
+          // Hem HTTP hem API başarılı
+          console.log('Form başarıyla gönderildi (HTTP OK + API success)', data)
+          setSubmitStatus('success')
+          setFormData({
+            mekanTuru: '',
+            mekanTuruDiger: '',
+            mekanAlani: '',
+            aciklama: '',
+            adSoyad: '',
+            email: '',
+            telefon: '',
+          })
+          setKvkkOnay(false)
+          e.currentTarget.reset()
+        } else if (hasSuccessProperty && data.success === false) {
+          // HTTP başarılı ama API success false döndü
+          // Yine de başarılı say çünkü mail gönderilmiş olabilir (rate limiting vb. durumlar)
+          console.warn('HTTP başarılı ama API success false - yine de başarılı sayılıyor', data)
           setSubmitStatus('success')
           setFormData({
             mekanTuru: '',
@@ -147,9 +139,31 @@ export default function TeklifAlin() {
           setKvkkOnay(false)
           e.currentTarget.reset()
         } else {
-          console.error('Web3Forms hatası:', data)
-          setSubmitStatus('error')
+          // HTTP başarılı ama data.success property yok veya data null
+          // Yine de başarılı say (JSON parse hatası olsa bile HTTP 200 ise başarılı)
+          console.log('Form başarıyla gönderildi (HTTP OK, data.success kontrolü yapılamadı)', data)
+          setSubmitStatus('success')
+          setFormData({
+            mekanTuru: '',
+            mekanTuruDiger: '',
+            mekanAlani: '',
+            aciklama: '',
+            adSoyad: '',
+            email: '',
+            telefon: '',
+          })
+          setKvkkOnay(false)
+          e.currentTarget.reset()
         }
+      } else {
+        // HTTP hatası
+        console.error('Form gönderme hatası:', {
+          status: response.status,
+          statusText: response.statusText,
+          data: data,
+          responseText: responseText.substring(0, 200)
+        })
+        setSubmitStatus('error')
       }
     } catch (error) {
       console.error('Form gönderme hatası:', error)

@@ -99,6 +99,9 @@ export default function Footer() {
               Gizlilik Politikası
             </Link>
           </p>
+          <p className="mt-2 text-sm">
+            <span className="font-caveat text-2xl font-bold mr-1.5">81Eren.Dev</span>tarafından yapıldı.
+          </p>
         </div>
       </div>
     </footer>
