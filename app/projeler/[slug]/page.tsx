@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import ImageGallery from '@/components/ImageGallery'
 import { useState } from 'react'
-import { projects } from '../page'
+import { projects } from '../data'
 
 interface ProjectDetailPageProps {
   params: { slug: string }
