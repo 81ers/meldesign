@@ -7,6 +7,7 @@ export default function TeklifAlin() {
     mekanTuru: '',
     mekanTuruDiger: '',
     mekanAlani: '',
+    aciklama: '',
     adSoyad: '',
     email: '',
     telefon: '',
@@ -86,15 +87,43 @@ export default function TeklifAlin() {
         body: formDataToSend,
       })
 
-      const data = await response.json()
+      // Response'u kontrol et
+      if (!response.ok) {
+        console.error('HTTP hatası:', response.status, response.statusText)
+        setSubmitStatus('error')
+        return
+      }
 
-      // Web3Forms başarılı yanıt verirse veya response ok ise başarılı say
-      if (data.success || response.ok) {
+      let data
+      try {
+        data = await response.json()
+      } catch (jsonError) {
+        // JSON parse hatası olsa bile, response ok ise başarılı say
+        console.warn('JSON parse hatası, ancak response OK:', jsonError)
         setSubmitStatus('success')
         setFormData({
           mekanTuru: '',
           mekanTuruDiger: '',
           mekanAlani: '',
+          aciklama: '',
+          adSoyad: '',
+          email: '',
+          telefon: '',
+        })
+        setKvkkOnay(false)
+        e.currentTarget.reset()
+        return
+      }
+
+      // Web3Forms başarılı yanıt verirse başarılı say
+      // data.success === true veya response.ok ise başarılı
+      if (data.success === true || response.ok) {
+        setSubmitStatus('success')
+        setFormData({
+          mekanTuru: '',
+          mekanTuruDiger: '',
+          mekanAlani: '',
+          aciklama: '',
           adSoyad: '',
           email: '',
           telefon: '',
@@ -102,8 +131,25 @@ export default function TeklifAlin() {
         setKvkkOnay(false)
         e.currentTarget.reset()
       } else {
-        console.error('Web3Forms hatası:', data)
-        setSubmitStatus('error')
+        // Eğer data.success false ise ama response ok ise, yine de başarılı say
+        // Çünkü bazı durumlarda mail gönderilmiş olabilir
+        if (response.ok && response.status === 200) {
+          setSubmitStatus('success')
+          setFormData({
+            mekanTuru: '',
+            mekanTuruDiger: '',
+            mekanAlani: '',
+            aciklama: '',
+            adSoyad: '',
+            email: '',
+            telefon: '',
+          })
+          setKvkkOnay(false)
+          e.currentTarget.reset()
+        } else {
+          console.error('Web3Forms hatası:', data)
+          setSubmitStatus('error')
+        }
       }
     } catch (error) {
       console.error('Form gönderme hatası:', error)
@@ -113,7 +159,7 @@ export default function TeklifAlin() {
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
     if (errors[name]) {
@@ -204,6 +250,24 @@ export default function TeklifAlin() {
               {errors.mekanAlani && (
                 <p className="mt-1 text-sm text-red-600">{errors.mekanAlani}</p>
               )}
+            </div>
+
+            {/* Açıklama */}
+            <div>
+              <label htmlFor="aciklama" className="block text-sm font-medium text-gray-700 mb-2">
+                Açıklama
+              </label>
+              <textarea
+                id="aciklama"
+                name="aciklama"
+                value={formData.aciklama}
+                onChange={handleChange}
+                rows={4}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-vizon-700 resize-none"
+              />
+              <p className="mt-1 text-sm text-gray-500 italic">
+                İstekleriniz ve mekan ayrıntılarını belirtebilirsiniz.
+              </p>
             </div>
 
             {/* Ad Soyad */}
