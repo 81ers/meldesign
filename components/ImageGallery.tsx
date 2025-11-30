@@ -247,6 +247,7 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
                 quality={95}
                 placeholder="blur"
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                unoptimized
               />
             </div>
           )}
@@ -263,6 +264,7 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
               priority={currentIndex === initialIndex}
               sizes="100vw"
               quality={90}
+              unoptimized
             />
           </div>
         </div>
@@ -298,6 +300,7 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
                 className="object-cover"
                 sizes="80px"
                 quality={75}
+                unoptimized
               />
             </button>
           ))}
@@ -306,3 +309,5 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
     </div>
   )
 }
+
+

@@ -30,12 +30,12 @@ export default function HizmetlerPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="bg-vizon-800 text-white py-24">
+      <section className="bg-vizon-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6 text-white">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold mb-3 text-white">
             Hizmetlerimiz
           </h1>
-          <p className="text-xl text-white max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-white/90 max-w-2xl mx-auto">
             Sunduğumuz profesyonel iç mimarlık hizmetleri
           </p>
         </div>

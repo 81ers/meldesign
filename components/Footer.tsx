@@ -100,7 +100,15 @@ export default function Footer() {
             </Link>
           </p>
           <p className="mt-2 text-sm">
-            <span className="font-caveat text-2xl font-bold mr-1.5">81Eren.Dev</span>tarafından yapıldı.
+            <a 
+              href="https://sample-link.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              <span className="font-caveat text-2xl font-bold mr-1.5">81Eren.Dev</span>
+            </a>
+            tarafından yapıldı.
           </p>
         </div>
       </div>

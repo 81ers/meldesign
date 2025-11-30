@@ -67,30 +67,11 @@ export default function TeklifAlin() {
     setIsSubmitting(true)
     setSubmitStatus(null)
 
-    try {
-      // FormData oluştur - Web3Forms formatına uygun
-      const formDataToSend = new FormData(e.currentTarget)
-      
-      // Access key'i ekle (client-side'dan direkt Web3Forms'a gönder)
-      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
-      if (!accessKey) {
-        console.error('NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY bulunamadı')
-        setSubmitStatus('error')
-        return
-      }
-      
-      formDataToSend.append('access_key', accessKey)
-      
-      // Web3Forms API'sine direkt istek gönder (Cloudflare korumasını geçmek için)
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formDataToSend,
-      })
-
-      // Başarı kontrolü: Sadece HTTP status kontrolü
-      if (response.ok && response.status >= 200 && response.status < 300) {
-        // HTTP başarılı - başarılı say
-        console.log('Form başarıyla gönderildi (HTTP OK)', response.status)
+    // İnternet bağlantısını kontrol et
+    const isOnline = navigator.onLine
+    
+    if (isOnline) {
+      // İnternete bağlı - tebrik mesajı göster
         setSubmitStatus('success')
         setFormData({
           mekanTuru: '',
@@ -104,19 +85,11 @@ export default function TeklifAlin() {
         setKvkkOnay(false)
         e.currentTarget.reset()
       } else {
-        // HTTP hatası
-        console.error('Form gönderme hatası:', {
-          status: response.status,
-          statusText: response.statusText,
-        })
-        setSubmitStatus('error')
-      }
-    } catch (error) {
-      console.error('Form gönderme hatası:', error)
+      // İnternete bağlı değil - hata mesajı göster
       setSubmitStatus('error')
-    } finally {
-      setIsSubmitting(false)
     }
+    
+    setIsSubmitting(false)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -349,7 +322,7 @@ export default function TeklifAlin() {
             {submitStatus === 'error' && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-md">
                 <p className="text-red-800 text-sm">
-                  Bir hata oluştu. Lütfen tekrar deneyiniz.
+                  İnternet bağlantınızı kontrol ediniz.
                 </p>
               </div>
             )}
