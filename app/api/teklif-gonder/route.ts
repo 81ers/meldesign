@@ -15,12 +15,14 @@ export async function POST(request: NextRequest) {
     }
     
     const mekanTuru = formData.get('mekanTuru') as string | null
+    const mekanTuruDiger = formData.get('mekanTuruDiger') as string | null
     const mekanAlani = formData.get('mekanAlani') as string | null
+    const aciklama = formData.get('aciklama') as string | null
     const adSoyad = formData.get('adSoyad') as string | null
     const email = formData.get('email') as string | null
     const telefon = formData.get('telefon') as string | null
 
-    console.log('Form verileri alındı:', { mekanTuru, mekanAlani, adSoyad, email, telefon })
+    console.log('Form verileri alındı:', { mekanTuru, mekanTuruDiger, mekanAlani, aciklama, adSoyad, email, telefon })
 
     // Validation
     if (!mekanTuru || !mekanAlani || !adSoyad || !email) {
@@ -50,16 +52,18 @@ export async function POST(request: NextRequest) {
       message: `
 Yeni Teklif Talebi
 
-Mekan Türü: ${mekanTuru}
+Mekan Türü: ${mekanTuru}${mekanTuruDiger ? ` (${mekanTuruDiger})` : ''}
 Mekan Alanı: ${mekanAlani}
 Ad Soyad: ${adSoyad}
 Email: ${email}
 Telefon: ${telefon || 'Belirtilmemiş'}
+${aciklama ? `\nAçıklama:\n${aciklama}` : ''}
       `.trim(),
       // Ekstra alanlar
-      'Mekan Türü': mekanTuru,
+      'Mekan Türü': mekanTuru + (mekanTuruDiger ? ` (${mekanTuruDiger})` : ''),
       'Mekan Alanı': mekanAlani,
       'Telefon': telefon || 'Belirtilmemiş',
+      'Açıklama': aciklama || 'Belirtilmemiş',
     }
 
     console.log('Web3Forms gönderiliyor:', { name: adSoyad, email: email })

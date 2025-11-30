@@ -70,8 +70,28 @@ export default function TeklifAlin() {
     // İnternet bağlantısını kontrol et
     const isOnline = navigator.onLine
     
-    if (isOnline) {
-      // İnternete bağlı - tebrik mesajı göster
+    if (!isOnline) {
+      // İnternete bağlı değil - hata mesajı göster
+      setSubmitStatus('error')
+      setIsSubmitting(false)
+      return
+    }
+
+    // İnternete bağlı - formu gönder
+    try {
+      // FormData oluştur
+      const formDataToSend = new FormData(e.currentTarget)
+      
+      // API route'a gönder
+      const response = await fetch('/api/teklif-gonder', {
+        method: 'POST',
+        body: formDataToSend,
+      })
+
+      const result = await response.json()
+
+      if (response.ok && result.success) {
+        // Başarılı - tebrik mesajı göster
         setSubmitStatus('success')
         setFormData({
           mekanTuru: '',
@@ -85,11 +105,15 @@ export default function TeklifAlin() {
         setKvkkOnay(false)
         e.currentTarget.reset()
       } else {
-      // İnternete bağlı değil - hata mesajı göster
+        // Hata
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      console.error('Form gönderme hatası:', error)
       setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
     }
-    
-    setIsSubmitting(false)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
