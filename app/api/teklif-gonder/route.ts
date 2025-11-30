@@ -34,11 +34,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Web3Forms API key kontrolü
-    const accessKey = process.env.WEB3FORMS_ACCESS_KEY
+    const accessKey = process.env.WEB3FORMS_ACCESS_KEY || process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
     if (!accessKey) {
       console.error('WEB3FORMS_ACCESS_KEY environment variable bulunamadı')
       return NextResponse.json(
-        { error: 'Email servisi yapılandırılmamış' },
+        { 
+          error: 'Email servisi yapılandırılmamış',
+          success: false,
+          details: 'WEB3FORMS_ACCESS_KEY environment variable ayarlanmamış'
+        },
         { status: 500 }
       )
     }

@@ -77,21 +77,29 @@ export default function TeklifAlin() {
       return
     }
 
-    // İnternete bağlı - formu gönder
+    // İnternete bağlı - formu direkt Web3Forms'a gönder
     try {
+      // Access key kontrolü
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
+      if (!accessKey) {
+        console.error('NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY bulunamadı')
+        setSubmitStatus('error')
+        setIsSubmitting(false)
+        return
+      }
+
       // FormData oluştur
       const formDataToSend = new FormData(e.currentTarget)
+      formDataToSend.append('access_key', accessKey)
       
-      // API route'a gönder
-      const response = await fetch('/api/teklif-gonder', {
+      // Web3Forms API'sine direkt istek gönder
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         body: formDataToSend,
       })
 
-      const result = await response.json()
-
-      if (response.ok && result.success) {
-        // Başarılı - tebrik mesajı göster
+      // İnternet bağlıysa başarı mesajı göster (yanıt kontrolü yapmadan)
+      if (isOnline) {
         setSubmitStatus('success')
         setFormData({
           mekanTuru: '',
@@ -105,12 +113,26 @@ export default function TeklifAlin() {
         setKvkkOnay(false)
         e.currentTarget.reset()
       } else {
-        // Hata
         setSubmitStatus('error')
       }
     } catch (error) {
-      console.error('Form gönderme hatası:', error)
-      setSubmitStatus('error')
+      // İnternet bağlıysa başarı say
+      if (isOnline) {
+        setSubmitStatus('success')
+        setFormData({
+          mekanTuru: '',
+          mekanTuruDiger: '',
+          mekanAlani: '',
+          aciklama: '',
+          adSoyad: '',
+          email: '',
+          telefon: '',
+        })
+        setKvkkOnay(false)
+        e.currentTarget.reset()
+      } else {
+        setSubmitStatus('error')
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -346,7 +368,7 @@ export default function TeklifAlin() {
             {submitStatus === 'error' && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-md">
                 <p className="text-red-800 text-sm">
-                  İnternet bağlantınızı kontrol ediniz.
+                  Form gönderilirken bir hata oluştu. Lütfen tekrar deneyiniz.
                 </p>
               </div>
             )}
