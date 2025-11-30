@@ -244,6 +244,9 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
                 fill
                 className="object-contain"
                 sizes="100vw"
+                quality={95}
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               />
             </div>
           )}
@@ -259,6 +262,7 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
               className="object-contain"
               priority={currentIndex === initialIndex}
               sizes="100vw"
+              quality={90}
             />
           </div>
         </div>
@@ -292,6 +296,8 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
                 alt={`Thumbnail ${index + 1}`}
                 fill
                 className="object-cover"
+                sizes="80px"
+                quality={75}
               />
             </button>
           ))}

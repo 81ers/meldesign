@@ -32,16 +32,20 @@ export default function ProjelerPage() {
                 <Link
                   key={project.id}
                   href={`/projeler/${project.slug}`}
-                  className="group block bg-white overflow-hidden hover:shadow-xl transition-all duration-300 w-full max-w-[700px]"
+                  className="group block bg-white overflow-hidden hover:shadow-xl transition-all duration-300 w-full max-w-[500px]"
                 >
-                  {/* Image Container - 700x700 piksel kare */}
-                  <div className="relative w-full aspect-square max-w-[700px] max-h-[700px] overflow-hidden">
+                  {/* Image Container - 500x400 piksel */}
+                  <div className="relative w-[500px] h-[400px] overflow-hidden">
                     <Image
                       src={firstImage}
                       alt={project.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, 700px"
+                      sizes="(max-width: 768px) 100vw, 500px"
+                      quality={90}
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                     />
                   </div>
                   
