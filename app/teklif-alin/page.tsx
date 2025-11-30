@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, useEffect } from 'react'
 
 export default function TeklifAlin() {
   const [formData, setFormData] = useState({
@@ -146,8 +146,90 @@ export default function TeklifAlin() {
     }
   }
 
+  const closeSuccessModal = () => {
+    setSubmitStatus(null)
+  }
+
+  // ESC tuşu ile modal'ı kapat
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && submitStatus === 'success') {
+        closeSuccessModal()
+      }
+    }
+    window.addEventListener('keydown', handleEscape)
+    return () => window.removeEventListener('keydown', handleEscape)
+  }, [submitStatus])
+
   return (
     <div className="min-h-screen pt-20 bg-gray-50">
+      {/* Success Modal Pop-up */}
+      {submitStatus === 'success' && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          onClick={closeSuccessModal}
+        >
+          <div 
+            className="bg-white rounded-lg shadow-2xl max-w-md w-full mx-4 p-6 animate-fade-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-end mb-4">
+              <button
+                onClick={closeSuccessModal}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label="Kapat"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className="text-center">
+              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                <svg
+                  className="h-8 w-8 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-serif font-bold text-gray-900 mb-3">
+                Tebrikler!
+              </h3>
+              <p className="text-green-800 text-base font-medium mb-2">
+                Bilgileriniz başarılı bir şekilde tarafımıza ulaştı!
+              </p>
+              <p className="text-gray-600 text-sm mb-6">
+                Mekanınız hakkındaki teklifimizi iki iş günü içerisinde belirttiğiniz mail adresine ileteceğiz.
+              </p>
+              <button
+                onClick={closeSuccessModal}
+                className="w-full px-6 py-3 bg-vizon-800 text-white font-medium hover:bg-vizon-700 transition-colors duration-200 rounded-md"
+              >
+                Tamam
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-2xl mx-auto px-4 py-16">
         <h1 className="text-4xl font-serif font-bold text-gray-900 mb-4">
           Teklif Alın
@@ -353,18 +435,7 @@ export default function TeklifAlin() {
               {isSubmitting ? 'Gönderiliyor...' : 'Mekan Bilgilerimi Gönder'}
             </button>
 
-            {/* Status Messages */}
-            {submitStatus === 'success' && (
-              <div className="p-6 bg-green-50 border border-green-200 rounded-md">
-                <p className="text-green-800 text-base font-medium mb-2">
-                  Tebrikler, bilgileriniz başarılı bir şekilde tarafımıza ulaştı!
-                </p>
-                <p className="text-green-700 text-sm">
-                  Mekanınız hakkındaki teklifimizi iki iş günü içerisinde belirttiğiniz mail adresine ileteceğiz.
-                </p>
-              </div>
-            )}
-
+            {/* Error Message */}
             {submitStatus === 'error' && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-md">
                 <p className="text-red-800 text-sm">
