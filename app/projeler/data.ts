@@ -94,6 +94,7 @@ export const projects: Project[] = [
     description: 'İstanbul\'un en prestijli bölgelerinden birinde konumlanan lüks villa. Modern mimari ve klasik zarafetin buluşması.',
     images: [
       "/projeler/etilervillaistanbul/1.webp",
+      "/projeler/etilervillaistanbul/4.webp",
       "/projeler/etilervillaistanbul/5.webp",
       "/projeler/etilervillaistanbul/8.webp",
     ],
@@ -114,6 +115,20 @@ export const projects: Project[] = [
       "/projeler/cabincoffee/7.webp",
       "/projeler/cabincoffee/9.webp",
       "/projeler/cabincoffee/10.webp",
+    ],
+  },
+  {
+    id: 6,
+    title: 'BEYLİKDÜZÜ GENÇ KIZ ODASI',
+    location: 'İstanbul',
+    type: 'Konut',
+    folder: 'beylikduzugenkiz',
+    slug: 'beylikduzu-genc-kiz-odasi',
+    description: 'Genç kızlar için özel tasarlanmış modern ve şık bir oda. Beylikdüzü\'nde konumlanan bu proje, kişiselleştirilmiş bir yaşam alanı sunuyor.',
+    images: [
+      "/projeler/beylikduzugenkiz/2.webp",
+      "/projeler/beylikduzugenkiz/21.webp",
+      "/projeler/beylikduzugenkiz/44.webp",
     ],
   },
 ]
