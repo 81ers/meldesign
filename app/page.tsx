@@ -5,29 +5,35 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const bgImages = [
-  '/bg/Screenshot_20251121_150406_Instagram.jpg',
-  '/bg/Screenshot_20251121_150417_Instagram.jpg',
-  '/bg/Screenshot_20251121_150424_Instagram.jpg',
+  '/bg/Screenshot_20251121_150406_Instagram.webp',
+  '/bg/Screenshot_20251121_150417_Instagram.webp',
+  '/bg/Screenshot_20251121_150424_Instagram.webp',
 ]
 
 const featuredProjects = [
   {
     id: 1,
-    title: 'Modern Konut Projesi',
-    category: 'Konut',
-    image: '/bg/Screenshot_20251121_150406_Instagram.jpg',
+    title: "LINS'S CONCEPT",
+    category: 'Mağaza',
+    location: 'Düzce',
+    image: '/projeler/LINSSCONCEPT/LINS2.webp',
+    slug: 'lins-concept',
   },
   {
     id: 2,
-    title: 'Lüks Ofis Alanı',
-    category: 'Ofis & Ticari',
-    image: '/bg/Screenshot_20251121_150417_Instagram.jpg',
+    title: 'VİLLA TRE',
+    category: 'Konut',
+    location: 'Düzce',
+    image: '/projeler/Villatreduzce/2.webp',
+    slug: 'villa-tre',
   },
   {
     id: 3,
-    title: 'Şık Restoran Tasarımı',
-    category: 'Restoran & Kafe',
-    image: '/bg/Screenshot_20251121_150424_Instagram.jpg',
+    title: 'GANİTA',
+    category: 'Restoran',
+    location: 'Bolu',
+    image: '/projeler/ganitabolu/RENDER1.webp',
+    slug: 'ganita',
   },
 ]
 
@@ -37,16 +43,21 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY)
+      const scrollPosition = window.scrollY || window.pageYOffset
+      setScrollY(scrollPosition)
       // Scroll pozisyonuna göre arkaplan resmini değiştir
       const newIndex = Math.min(
-        Math.floor(window.scrollY / 500),
+        Math.floor(scrollPosition / 500),
         bgImages.length - 1
       )
       setCurrentBgIndex(newIndex)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    // İlk render'da da çalıştır
+    handleScroll()
+
+    // Scroll event listener ekle
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -78,6 +89,7 @@ export default function Home() {
               sizes="100vw"
               placeholder="blur"
               blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+              unoptimized
               style={{
                 objectFit: 'cover',
                 objectPosition: 'center',
@@ -149,7 +161,7 @@ export default function Home() {
             {featuredProjects.map((project, index) => (
               <Link
                 key={project.id}
-                href="/projeler"
+                href={`/projeler/${project.slug}`}
                 className="group relative overflow-hidden bg-gray-100 aspect-[4/3]"
               >
                 <div className="absolute inset-0">
@@ -163,12 +175,13 @@ export default function Home() {
                     priority={index === 0}
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                    unoptimized
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                   <span className="text-sm font-medium text-white/80 mb-2 block">
-                    {project.category}
+                    {project.category.charAt(0).toUpperCase() + project.category.slice(1).toLowerCase()} / {project.location.charAt(0).toUpperCase() + project.location.slice(1).toLowerCase()}
                   </span>
                   <h3 className="text-2xl font-serif font-bold">
                     {project.title}

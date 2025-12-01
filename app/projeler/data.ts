@@ -59,7 +59,7 @@ export const projects: Project[] = [
     id: 3,
     title: 'GANİTA',
     location: 'Bolu',
-    type: 'Restaurant',
+    type: 'Restoran',
     folder: 'ganitabolu',
     slug: 'ganita',
     description: 'Sıcak ve davetkar bir restoran atmosferi. GANİTA, lezzetli yemeklerin yanı sıra estetik bir deneyim sunuyor.',

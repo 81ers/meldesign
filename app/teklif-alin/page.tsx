@@ -76,7 +76,7 @@ export default function TeklifAlin() {
       setIsSubmitting(false)
       return
     }
-
+      
     // İnternete bağlı - formu direkt Web3Forms'a gönder
     try {
       // Access key kontrolü
@@ -87,7 +87,7 @@ export default function TeklifAlin() {
         setIsSubmitting(false)
         return
       }
-
+      
       // FormData oluştur
       const formDataToSend = new FormData(e.currentTarget)
       formDataToSend.append('access_key', accessKey)
@@ -131,7 +131,7 @@ export default function TeklifAlin() {
         setKvkkOnay(false)
         e.currentTarget.reset()
       } else {
-        setSubmitStatus('error')
+      setSubmitStatus('error')
       }
     } finally {
       setIsSubmitting(false)
