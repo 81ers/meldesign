@@ -31,7 +31,7 @@ export default function IletisimPage() {
                   </h3>
                   <p className="text-gray-600">
                     Kültür Mahallesi, Fırın Sokak No:6<br />
-                    81010 Düzce
+                    81010 Merkez / Düzce
                   </p>
                 </div>
                 <div>
