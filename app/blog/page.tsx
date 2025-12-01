@@ -2,7 +2,7 @@ export default function BlogPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="bg-vizon-800 text-white py-12">
+      <section className="bg-vizon-800 text-white py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-3 text-white">
             Basında Biz

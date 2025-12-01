@@ -68,9 +68,9 @@ export default function Footer() {
               href="https://81erendev.vercel.app/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
+              className="hover:text-white transition-colors underline"
             >
-              <span className="font-caveat text-2xl font-bold mr-1.5">81Eren.Dev</span>
+              <span className="mr-1">81Eren.Dev</span>
             </a>
             tarafından yapıldı.
           </p>

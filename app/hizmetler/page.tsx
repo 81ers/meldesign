@@ -30,7 +30,7 @@ export default function HizmetlerPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="bg-vizon-800 text-white py-12">
+      <section className="bg-vizon-800 text-white py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-3 text-white">
             Hizmetlerimiz
@@ -48,12 +48,11 @@ export default function HizmetlerPage() {
             {services.map((service) => (
               <div
                 key={service.id}
-                className="bg-gray-50 p-8 hover:shadow-lg transition-shadow duration-300"
+                className="bg-gray-50 p-8 shadow-md hover:shadow-lg transition-shadow duration-300"
               >
-                <h3 className="text-2xl font-serif font-bold text-gray-900 mb-4">
+                <h3 className="text-2xl font-serif font-bold text-gray-900">
                   {service.title}
                 </h3>
-                <p className="text-gray-600">{service.description}</p>
               </div>
             ))}
           </div>

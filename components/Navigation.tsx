@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -16,12 +17,17 @@ export default function Navigation() {
       return
     }
 
+    // Menü açıkken scroll event'ini dinleme (animasyon takılmasını önlemek için)
+    if (isMobileMenuOpen || isClosing) {
+      return
+    }
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [pathname])
+  }, [pathname, isMobileMenuOpen, isClosing])
 
   const navItems = [
     { href: '/', label: 'Ana Sayfa' },
@@ -77,47 +83,98 @@ export default function Navigation() {
 
           {/* Mobile Menu Button */}
           <button
-            className={`md:hidden p-2 ${pathname === '/' && !isScrolled ? 'text-white' : 'text-gray-700'}`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`md:hidden p-2 relative w-8 h-8 flex flex-col justify-center items-center ${pathname === '/' && !isScrolled ? 'text-white' : 'text-gray-700'}`}
+            onClick={() => {
+              if (isMobileMenuOpen) {
+                setIsClosing(true)
+                // Container animasyonu bitene kadar bekle (750ms delay + 500ms animasyon)
+                setTimeout(() => {
+                  setIsMobileMenuOpen(false)
+                  setIsClosing(false)
+                }, 50)
+              } else {
+                setIsClosing(false)
+                setIsMobileMenuOpen(true)
+              }
+            }}
             aria-label="Menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isMobileMenuOpen ? (
-                <path d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
+            <span
+              className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ${
+                isMobileMenuOpen
+                  ? 'rotate-45 translate-y-0'
+                  : '-translate-y-2'
+              }`}
+            />
+            <span
+              className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ${
+                isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
+              }`}
+            />
+            <span
+              className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ${
+                isMobileMenuOpen
+                  ? '-rotate-45 translate-y-0'
+                  : 'translate-y-2'
+              }`}
+            />
           </button>
         </div>
 
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden pb-4 bg-white/95 backdrop-blur-md">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`block px-4 py-2 text-sm font-medium ${
-                  item.isSpecial
-                    ? 'mx-4 my-2 text-center border-2 border-vizon-700 text-gray-700 hover:bg-vizon-700 hover:text-white'
-                    : pathname === item.href
-                    ? 'text-gray-900 bg-gray-50'
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+        {(isMobileMenuOpen || isClosing) && (
+          <div 
+            className={`md:hidden pb-4 backdrop-blur-md ${
+              pathname === '/' && !isScrolled
+                ? 'bg-black/40'
+                : 'bg-white/95'
+            } ${
+              isClosing 
+                ? 'animate-fade-out' 
+                : 'animate-fade-in'
+            }`}
+            style={{
+              animationDelay: isClosing ? '750ms' : '0ms',
+            }}
+          >
+            {navItems.map((item, index) => {
+              const isTransparentMode = pathname === '/' && !isScrolled
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => {
+                    setIsClosing(true)
+                    // Container animasyonu bitene kadar bekle (750ms delay + 500ms animasyon)
+                    setTimeout(() => {
+                      setIsMobileMenuOpen(false)
+                      setIsClosing(false)
+                    }, 1250)
+                  }}
+                  className={`block px-4 py-2 text-sm font-medium ${
+                    isClosing ? 'animate-fade-out-down' : 'animate-fade-in-up'
+                  } ${
+                    item.isSpecial
+                      ? isTransparentMode
+                        ? 'mx-4 my-2 text-center border-2 border-white text-white hover:bg-white/20'
+                        : 'mx-4 my-2 text-center border-2 border-vizon-700 text-gray-700 hover:bg-vizon-700 hover:text-white'
+                      : isTransparentMode
+                      ? pathname === item.href
+                        ? 'text-white bg-white/20'
+                        : 'text-white hover:text-white/80 hover:bg-white/10'
+                      : pathname === item.href
+                      ? 'text-gray-900 bg-gray-50'
+                      : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
+                  }`}
+                  style={{
+                    animationDelay: `${index * 50}ms`,
+                    animationFillMode: 'both',
+                  }}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
           </div>
         )}
       </div>

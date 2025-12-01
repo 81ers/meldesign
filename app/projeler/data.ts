@@ -85,20 +85,6 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 4,
-    title: 'ETİLER VİLLA',
-    location: 'İstanbul',
-    type: 'Konut',
-    folder: 'etilervillaistanbul',
-    slug: 'etiler-villa',
-    description: 'İstanbul\'un en prestijli bölgelerinden birinde konumlanan lüks villa. Modern mimari ve klasik zarafetin buluşması.',
-    images: [
-      "/projeler/etilervillaistanbul/1.webp",
-      "/projeler/etilervillaistanbul/5.webp",
-      "/projeler/etilervillaistanbul/8.webp",
-    ],
-  },
-  {
     id: 5,
     title: 'CABIN COFFEE',
     location: 'Bolu',
