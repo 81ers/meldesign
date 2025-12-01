@@ -35,7 +35,7 @@ export default function Footer() {
               <span>+90 541 635 88 81</span>
             </a>
             <span>
-              Kültür Mahallesi, Fırın Sokak No:6, 81010 Düzce
+              Kültür Mahallesi, Fırın Sokak No:6, 81010 Merkez / Düzce
             </span>
             <a
               href="https://www.instagram.com/meldesign.studio/"
@@ -64,15 +64,16 @@ export default function Footer() {
             </Link>
           </p>
           <p className="mt-1 text-sm">
+            Bu site{' '}
             <a 
               href="https://81erendev.vercel.app/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="hover:text-white transition-colors underline"
             >
-              <span className="mr-1">81Eren.Dev</span>
+              81Eren.Dev
             </a>
-            tarafından yapıldı.
+            {' '}tarafından tasarlanmıştır.
           </p>
         </div>
       </div>
