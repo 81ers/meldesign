@@ -17,7 +17,7 @@ export const projects: Project[] = [
     type: 'Mağaza',
     folder: 'LINSSCONCEPT',
     slug: 'lins-concept',
-    description: 'Modern ve şık bir mağaza tasarımı. LINS\'S CONCEPT, çağdaş alışveriş deneyimi sunan özenle tasarlanmış bir mekan.',
+    description: 'LINS\'S Concept, Doğal malzemeler ve sakin tonlarla tasarlanmış modern bir mağazadır. Minimal çizgiler, yumuşak dokular ve doğal ışığın öne çıktığı mekânsal kurgu sayesinde mağaza, ferah ve fonksiyonel bir alışveriş deneyimi sunmaktadır. Ürünlerin sade bir fon üzerinde vurgulandığı bu tasarım, hem sıcak hem de etkileyici bir atmosfer oluşturmaktadır.',
     images: [
       "/projeler/LINSSCONCEPT/LINS2.webp",
       "/projeler/LINSSCONCEPT/LINS3.webp",
@@ -33,7 +33,7 @@ export const projects: Project[] = [
     type: 'Konut',
     folder: 'Villatreduzce',
     slug: 'villa-tre',
-    description: 'Lüks villa tasarımı. Doğa ile iç içe, modern konforun buluştuğu özel bir yaşam alanı.',
+    description: 'Villa Tre, modern konforu doğal malzemeler ve dengeli ışık kullanımıyla bir araya getiren seçkin bir konut tasarımıdır. İç mekânlarda geniş hacim duygusu, nötr palet ve rafine detaylar ön planda tutulmuştur. Her odada sakin, şık ve zamansız bir atmosfer yaratılarak yaşam alanına karakter kazandırılmıştır.',
     images: [
       "/projeler/Villatreduzce/2.webp",
       "/projeler/Villatreduzce/4.webp",
@@ -62,7 +62,7 @@ export const projects: Project[] = [
     type: 'Restoran',
     folder: 'ganitabolu',
     slug: 'ganita',
-    description: 'Sıcak ve davetkar bir restoran atmosferi. GANİTA, lezzetli yemeklerin yanı sıra estetik bir deneyim sunuyor.',
+    description: 'Ganita, modern çizgileri rustik dokularla buluşturan zamansız bir restoran tasarımıdır. Doğal ahşap yüzeyler mekâna hem doğallık hem de derinlik kazandıran bir atmosfer oluşturmuştur. Misafirlere etkileyici deneyim sunan bütünlüklü bir iç mekân kurgulanmıştır.',
     images: [
       "/projeler/ganitabolu/RENDER1.webp",
       "/projeler/ganitabolu/RENDER2.webp",
@@ -91,7 +91,7 @@ export const projects: Project[] = [
     type: 'Konut',
     folder: 'etilervillaistanbul',
     slug: 'etiler-villa',
-    description: 'İstanbul\'un en prestijli bölgelerinden birinde konumlanan lüks villa. Modern mimari ve klasik zarafetin buluşması.',
+    description: 'Etiler Villa, sofistike malzemeler ve koyu tonların dinginliğiyle modern lüksü vurgulayan bir tasarım anlayışına sahiptir. Ahşap paneller, özel üretim dokular ve yumuşak ışık geçişleri mekânın derinliğini arttırmaktadır. Her detayın özenle kurgulandığı bu konut, konforu ve estetiği üst segment bir yaşam deneyimi olarak sunmaktadır.',
     images: [
       "/projeler/etilervillaistanbul/1.webp",
       "/projeler/etilervillaistanbul/4.webp",
@@ -106,7 +106,7 @@ export const projects: Project[] = [
     type: 'Cafe',
     folder: 'cabincoffee',
     slug: 'cabin-coffee',
-    description: 'Sıcak ve samimi bir kafe atmosferi. CABIN COFFEE, kahve severler için tasarlanmış özel bir mekan.',
+    description: 'Cabin Coffee, yalın formlar ve doğal dokularla modern bir kafe deneyimi sunan dengeli bir mekânsal kurguya sahiptir. Ahşap yüzeylerin ritmi ve nötr tonlar, mekâna sade ama güçlü bir karakter kazandırmaktadır. Bar alanının net geometrisi ve düzenli akışı, markanın kimliğini destekleyen bütüncül bir atmosfer oluşturmaktadır.',
     images: [
       "/projeler/cabincoffee/1.webp",
       "/projeler/cabincoffee/3.webp",
@@ -124,7 +124,7 @@ export const projects: Project[] = [
     type: 'Konut',
     folder: 'beylikduzugenkiz',
     slug: 'beylikduzu-genc-kiz-odasi',
-    description: 'Genç kızlar için özel tasarlanmış modern ve şık bir oda. Beylikdüzü\'nde konumlanan bu proje, kişiselleştirilmiş bir yaşam alanı sunuyor.',
+    description: 'Genç kız odası, yumuşak tonlar ve zarif çizgilerle modern bir sadelik anlayışı üzerine tasarlanmıştır. Yüksek tavan formu ve geniş pencere açıklıkları, doğal ışığın mekânın ana unsuru olmasını sağlamaktadır. Fonksiyonellik, konfor ve estetik detaylar dengelenerek kullanıcıya özel, sıcak bir yaşam alanı oluşturulmuştur.',
     images: [
       "/projeler/beylikduzugenkiz/2.webp",
       "/projeler/beylikduzugenkiz/21.webp",
