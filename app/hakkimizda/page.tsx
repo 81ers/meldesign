@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function HakkimizdaPage() {
   return (
     <div className="pt-20">
@@ -15,35 +17,65 @@ export default function HakkimizdaPage() {
 
       {/* Content Section */}
       <section className="py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-lg max-w-none">
-            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-6">
-              Kuruluş Hikâyemiz
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Stüdyo Hakkında */}
+          <div className="mb-24">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-8">
+              Stüdyo hakkında
             </h2>
-            <p className="text-gray-600 mb-8 leading-relaxed">
-              İçerik yakında eklenecek...
-            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <div className="max-w-none">
+                <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+                  Mel Design Studio, mekanlara kimlik kazandıran çağdaş ve zamansız iç mimari çözümler üretir. Her proje, kullanıcı alışkanlıklarını, ışığı ve malzemeyi bir bütün olarak ele alan özgün bir tasarım yaklaşımıyla şekillenir. Detay hassasiyeti ve titiz uygulama süreçleriyle estetik kadar işlevselliği de ön planda tutar. Düzce merkezli bir iç mimarlık ofisi olarak bölgesel sınırların ötesine geçen projelere imza atar ve her mekâna güçlü bir tasarım dili kazandırır. Modern çizgileri sıcak malzeme dokularıyla buluşturarak özgün, dengeli ve yüksek nitelikli yaşam alanları tasarlar. Stüdyo, her projenin kendi hikâyesini yaratmasını sağlayarak tasarımın yaşam kalitesini artıran bir güce dönüşmesine odaklanır.
+                </p>
+              </div>
+              <div className="relative aspect-[4/3] w-full">
+                <Image
+                  src="/hakkimizda/8.webp"
+                  alt="Mel Design Studio"
+                  fill
+                  className="object-cover rounded-lg"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  quality={90}
+                />
+              </div>
+            </div>
+          </div>
 
-            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-6 mt-12">
-              Misyon & Vizyon
+          {/* Melis Yalçın */}
+          <div className="mt-24">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-8">
+              Melis Yalçın
             </h2>
-            <p className="text-gray-600 mb-8 leading-relaxed">
-              İçerik yakında eklenecek...
-            </p>
-
-            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-6 mt-12">
-              Ekip
-            </h2>
-            <p className="text-gray-600 mb-8 leading-relaxed">
-              İçerik yakında eklenecek...
-            </p>
-
-            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-6 mt-12">
-              Tasarım Yaklaşımımız
-            </h2>
-            <p className="text-gray-600 mb-8 leading-relaxed">
-              İçerik yakında eklenecek...
-            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <div className="relative aspect-[4/5] w-full order-2 md:order-1">
+                <Image
+                  src="/hakkimizda/MELIS-YALCIN_2-838x1024.webp"
+                  alt="Melis Yalçın"
+                  fill
+                  className="object-cover rounded-lg"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  quality={90}
+                />
+              </div>
+              <div className="max-w-none order-1 md:order-2">
+                <p className="text-lg md:text-xl text-gray-600 leading-relaxed mb-4">
+                  Melis Yalçın, modern ve estetik tasarım anlayışını uluslararası deneyimleri ile birleştiren bir iç mimardır.
+                </p>
+                <p className="text-lg md:text-xl text-gray-600 leading-relaxed mb-4">
+                  Marmara Üniversitesi İç Mimarlık lisans eğitimini tamamladıktan sonra, Türkiye'nin en köklü ofislerinden Tabanlıoğlu Mimarlık'ta büyük ölçekli otel ve konut projelerinde görev alarak mesleki temelini güçlendirmiştir.
+                </p>
+                <p className="text-lg md:text-xl text-gray-600 leading-relaxed mb-4">
+                  Tasarım vizyonunu global ölçekte geliştirmek amacıyla Milano'ya taşınmış, Domus Academy'de Interior and Living Design yüksek lisansını tamamlamış ve Milano'daki tasarım stüdyolarında Beymen Club, Luxottica, Calvin Klein, Levi's, The North Face ve Guess gibi uluslararası markaların perakende projelerinde aktif rol üstlenmiştir.
+                </p>
+                <p className="text-lg md:text-xl text-gray-600 leading-relaxed mb-4">
+                  Kariyerinin ilerleyen döneminde, Türkiye'ye dönerek Bvlgari Hotel projesinin uygulama süreçlerinde görev almış; lüks segmentte detay yönetimi, malzeme seçimi ve kalite standartları konusunda güçlü bir uzmanlık edinmiştir.
+                </p>
+                <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+                  Bugün kurucusu olduğu Mel Design Studio ile uluslararası birikimini Türkiye'deki uygulama deneyimiyle birleştirerek modern, rafine ve yüksek nitelikli mekanlar üretmeye devam etmektedir. Her projede malzeme, ışık ve mekânsal dengeyi ustalıkla bir araya getirerek özgün kimliğiyle öne çıkan yaşam alanları tasarlamaktadır.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

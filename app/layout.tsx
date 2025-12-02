@@ -21,7 +21,7 @@ const caveat = Caveat({
 })
 
 export const metadata: Metadata = {
-  title: 'mel design studio | İç Mimarlık Ofisi',
+  title: 'mel design studio | Düzce İç Mimarlık Ofisi',
   description: 'Zarif ve modern iç mimarlık çözümleri',
 }
 
