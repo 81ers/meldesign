@@ -17,7 +17,7 @@ export const projects: Project[] = [
     type: 'Mağaza',
     folder: 'LINSSCONCEPT',
     slug: 'lins-concept',
-    description: 'LINS\'S Concept, Doğal malzemeler ve sakin tonlarla tasarlanmış modern bir mağazadır. Minimal çizgiler, yumuşak dokular ve doğal ışığın öne çıktığı mekânsal kurgu sayesinde mağaza, ferah ve fonksiyonel bir alışveriş deneyimi sunmaktadır. Ürünlerin sade bir fon üzerinde vurgulandığı bu tasarım, hem sıcak hem de etkileyici bir atmosfer oluşturmaktadır.',
+    description: 'LINS\'S Concept, doğal malzemeler ve sakin tonlarla tasarlanmış modern bir mağazadır. Minimal çizgiler, yumuşak dokular ve doğal ışığın öne çıktığı mekânsal kurgu sayesinde mağaza, ferah ve fonksiyonel bir alışveriş deneyimi sunmaktadır. Ürünlerin sade bir fon üzerinde vurgulandığı bu tasarım, hem sıcak hem de etkileyici bir atmosfer oluşturmaktadır.',
     images: [
       "/projeler/LINSSCONCEPT/LINS2.webp",
       "/projeler/LINSSCONCEPT/LINS3.webp",
@@ -62,7 +62,7 @@ export const projects: Project[] = [
     type: 'Restoran',
     folder: 'ganitabolu',
     slug: 'ganita',
-    description: 'Ganita, modern çizgileri rustik dokularla buluşturan zamansız bir restoran tasarımıdır. Doğal ahşap yüzeyler mekâna hem doğallık hem de derinlik kazandıran bir atmosfer oluşturmuştur. Misafirlere etkileyici deneyim sunan bütünlüklü bir iç mekân kurgulanmıştır.',
+    description: 'Ganita, modern çizgiler ile rustik dokuları bir araya getiren zamansız bir restoran tasarımıdır. Doğal ahşap yüzeyler mekâna sıcaklık ve derinlik kazandırırken, tüm detayların uyum içinde şekillendiği akıcı bir iç mekân düzeni oluşturulmuştur. Mekân, malzeme geçişlerinin ve oranların dengeli kullanımıyla sofistike bir atmosfer sunmaktadır.',
     images: [
       "/projeler/ganitabolu/RENDER1.webp",
       "/projeler/ganitabolu/RENDER2.webp",
