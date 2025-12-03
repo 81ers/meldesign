@@ -62,6 +62,12 @@ export default function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={() => {
+                  // Link tıklandığında hemen animasyonu başlat
+                  if (typeof window !== 'undefined' && (window as any).__pageTransitionStart) {
+                    (window as any).__pageTransitionStart()
+                  }
+                }}
                 className={`text-sm font-medium transition-colors duration-200 ${
                   item.isSpecial
                     ? pathname === '/' && !isScrolled
@@ -134,7 +140,7 @@ export default function Navigation() {
                 : 'animate-fade-in'
             }`}
             style={{
-              animationDelay: isClosing ? '750ms' : '0ms',
+              animationDelay: isClosing ? '0ms' : '0ms',
             }}
           >
             {navItems.map((item, index) => {
@@ -144,12 +150,16 @@ export default function Navigation() {
                   key={item.href}
                   href={item.href}
                   onClick={() => {
+                    // Link tıklandığında hemen animasyonu başlat
+                    if (typeof window !== 'undefined' && (window as any).__pageTransitionStart) {
+                      (window as any).__pageTransitionStart()
+                    }
                     setIsClosing(true)
-                    // Container animasyonu bitene kadar bekle (750ms delay + 500ms animasyon)
+                    // Menüyü anında kapat
                     setTimeout(() => {
                       setIsMobileMenuOpen(false)
                       setIsClosing(false)
-                    }, 1250)
+                    }, 200)
                   }}
                   className={`block px-4 py-2 text-sm font-medium ${
                     isClosing ? 'animate-fade-out-down' : 'animate-fade-in-up'

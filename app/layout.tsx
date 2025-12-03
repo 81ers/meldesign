@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import PageTransition from '@/components/PageTransition'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -35,7 +36,9 @@ export default function RootLayout({
       <body className={`${inter.variable} ${playfair.variable} ${caveat.variable} font-sans antialiased`}>
         <Navigation />
         <main className="min-h-screen">
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
         </main>
         <Footer />
         <Analytics />

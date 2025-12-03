@@ -162,6 +162,12 @@ export default function Home() {
               <Link
                 key={project.id}
                 href={`/projeler/${project.slug}`}
+                onClick={() => {
+                  // Link tıklandığında hemen animasyonu başlat
+                  if (typeof window !== 'undefined' && (window as any).__pageTransitionStart) {
+                    (window as any).__pageTransitionStart()
+                  }
+                }}
                 className="group relative overflow-hidden bg-gray-100 aspect-[4/3]"
               >
                 <div className="absolute inset-0">
@@ -194,6 +200,12 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               href="/projeler"
+              onClick={() => {
+                // Link tıklandığında hemen animasyonu başlat
+                if (typeof window !== 'undefined' && (window as any).__pageTransitionStart) {
+                  (window as any).__pageTransitionStart()
+                }
+              }}
               className="inline-block px-8 py-3 bg-vizon-700 text-gray-900 font-medium hover:bg-vizon-600 transition-colors duration-200"
             >
               Tüm Projelerimizi Görüntüleyin

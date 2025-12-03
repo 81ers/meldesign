@@ -116,7 +116,7 @@ export default function IletisimPage() {
                   </svg>
                 </span>
                 <a
-                  href="https://maps.app.goo.gl/RgpM82pqWd3WYwtv9"
+                  href="https://www.google.com/maps/dir//40.8438333,31.1567222/@40.8438333,31.1541473,17z/data=!4m6!1m5!3m4!2zNDDCsDUwJzM3LjgiTiAzMcKwMDknMjQuMiJF!8m2!3d40.8438333!4d31.1567222?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow"

@@ -32,6 +32,12 @@ export default function ProjelerPage() {
                 <Link
                   key={project.id}
                   href={`/projeler/${project.slug}`}
+                  onClick={() => {
+                    // Link tıklandığında hemen animasyonu başlat
+                    if (typeof window !== 'undefined' && (window as any).__pageTransitionStart) {
+                      (window as any).__pageTransitionStart()
+                    }
+                  }}
                   className="group block bg-white overflow-hidden hover:shadow-xl transition-all duration-300 w-full max-w-[500px]"
                 >
                   {/* Image Container - 500x400 piksel */}

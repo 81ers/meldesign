@@ -1,11 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="bg-vizon-900 text-gray-700">
+    <footer className="bg-vizon-900 text-gray-700 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center">
             <h3 className="text-xl font-serif font-bold text-gray-900">
               mel design studio
             </h3>
@@ -59,7 +61,16 @@ export default function Footer() {
         <div className="mt-3 pt-3 border-t border-gray-800 text-center text-sm">
           <p>&copy; {new Date().getFullYear()} mel design studio. Tüm hakları saklıdır.</p>
           <p className="mt-1">
-            <Link href="/gizlilik-politikasi" className="hover:text-white transition-colors">
+            <Link 
+              href="/gizlilik-politikasi" 
+              className="hover:text-white transition-colors"
+              onClick={() => {
+                // Link tıklandığında hemen animasyonu başlat
+                if (typeof window !== 'undefined' && (window as any).__pageTransitionStart) {
+                  (window as any).__pageTransitionStart()
+                }
+              }}
+            >
               Gizlilik Politikası
             </Link>
           </p>
