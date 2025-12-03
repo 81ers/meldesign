@@ -1,11 +1,25 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function HakkimizdaPage() {
   const [image1Loaded, setImage1Loaded] = useState(false)
   const [image2Loaded, setImage2Loaded] = useState(false)
+  const [isIOS, setIsIOS] = useState(false)
+
+  useEffect(() => {
+    // iOS kontrolü
+    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    setIsIOS(isIOSDevice)
+    
+    // iOS'ta resimleri hemen göster (animasyon olmadan)
+    if (isIOSDevice) {
+      setImage1Loaded(true)
+      setImage2Loaded(true)
+    }
+  }, [])
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -41,6 +55,10 @@ export default function HakkimizdaPage() {
                       ? 'translate-y-0 opacity-100' 
                       : 'translate-y-full opacity-0'
                   }`}
+                  style={{
+                    willChange: 'transform, opacity',
+                    transform: image1Loaded ? 'translate3d(0, 0, 0)' : 'translate3d(0, 100%, 0)',
+                  }}
                 >
                   <Image
                     src="/hakkimizda/8.webp"
@@ -49,7 +67,9 @@ export default function HakkimizdaPage() {
                     className="object-cover rounded-lg"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     quality={90}
-                    onLoad={() => setImage1Loaded(true)}
+                    onLoad={() => !isIOS && setImage1Loaded(true)}
+                    onLoadingComplete={() => !isIOS && setImage1Loaded(true)}
+                    priority
                   />
                 </div>
               </div>
@@ -70,6 +90,10 @@ export default function HakkimizdaPage() {
                         ? 'translate-y-0 opacity-100' 
                         : 'translate-y-full opacity-0'
                     }`}
+                    style={{
+                      willChange: 'transform, opacity',
+                      transform: image2Loaded ? 'translate3d(0, 0, 0)' : 'translate3d(0, 100%, 0)',
+                    }}
                   >
                     <Image
                       src="/hakkimizda/MELIS-YALCIN_2-838x1024.webp"
@@ -78,7 +102,9 @@ export default function HakkimizdaPage() {
                       className="object-cover rounded-lg"
                       sizes="(max-width: 768px) 100vw, 50vw"
                       quality={90}
-                      onLoad={() => setImage2Loaded(true)}
+                      onLoad={() => !isIOS && setImage2Loaded(true)}
+                      onLoadingComplete={() => !isIOS && setImage2Loaded(true)}
+                      priority
                     />
                   </div>
                 </div>
