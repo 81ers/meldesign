@@ -43,29 +43,17 @@ export default function Home() {
   const [viewportHeight, setViewportHeight] = useState('100vh')
 
   useEffect(() => {
-    // Body background'unu kaldır (ana sayfa için)
-    document.body.style.background = 'transparent'
-    
     // Mobil viewport bug düzeltmesi - gerçek viewport yüksekliğini hesapla
     const setRealViewportHeight = () => {
       const vh = window.innerHeight * 0.01
-      const realHeight = window.innerHeight
       document.documentElement.style.setProperty('--vh', `${vh}px`)
-      setViewportHeight(`${realHeight}px`)
-      // Body ve HTML yüksekliğini de ayarla
-      document.documentElement.style.height = `${realHeight}px`
-      document.body.style.height = `${realHeight}px`
-      document.body.style.minHeight = `${realHeight}px`
+      setViewportHeight(`${window.innerHeight}px`)
     }
 
     // İlk yüklemede ve resize'da çalıştır
     setRealViewportHeight()
-    // Küçük bir gecikme ile tekrar çalıştır (mobil tarayıcıların viewport'u düzgün hesaplaması için)
-    setTimeout(setRealViewportHeight, 100)
     window.addEventListener('resize', setRealViewportHeight)
-    window.addEventListener('orientationchange', () => {
-      setTimeout(setRealViewportHeight, 100)
-    })
+    window.addEventListener('orientationchange', setRealViewportHeight)
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY || window.pageYOffset
@@ -88,40 +76,26 @@ export default function Home() {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', setRealViewportHeight)
       window.removeEventListener('orientationchange', setRealViewportHeight)
-      // Body background'unu geri yükle
-      document.body.style.background = ''
-      document.body.style.height = ''
-      document.body.style.minHeight = ''
-      document.documentElement.style.height = ''
     }
   }, [])
 
   return (
     <div className="relative min-h-screen">
       {/* Fixed Background for entire page */}
-      <div 
-        className="fixed -z-10"
-        style={{
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-        }}
-      >
+      <div className="fixed inset-0 -z-10">
         {bgImages.map((bg, index) => (
           <div
             key={index}
-            className={`absolute transition-opacity duration-1000 ${
+            className={`absolute inset-0 transition-opacity duration-1000 ${
               index === currentBgIndex ? 'opacity-100' : 'opacity-0'
             }`}
             style={{
               position: 'fixed',
               top: 0,
               left: 0,
-              right: 0,
-              bottom: 0,
               width: '100%',
+              height: viewportHeight,
+              minHeight: '100vh',
             }}
           >
             <Image
