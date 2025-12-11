@@ -49,27 +49,23 @@ export default function Home() {
     // Mobil viewport bug düzeltmesi - gerçek viewport yüksekliğini hesapla
     const setRealViewportHeight = () => {
       const vh = window.innerHeight * 0.01
+      const realHeight = window.innerHeight
       document.documentElement.style.setProperty('--vh', `${vh}px`)
-      setViewportHeight(`${window.innerHeight}px`)
+      setViewportHeight(`${realHeight}px`)
+      // Body ve HTML yüksekliğini de ayarla
+      document.documentElement.style.height = `${realHeight}px`
+      document.body.style.height = `${realHeight}px`
+      document.body.style.minHeight = `${realHeight}px`
     }
 
     // İlk yüklemede ve resize'da çalıştır
-    // Küçük bir gecikme ile çalıştır (mobil tarayıcıların viewport'u düzgün hesaplaması için)
-    const initViewport = () => {
-      setRealViewportHeight()
-      // Kısa bir süre sonra tekrar kontrol et
-      setTimeout(setRealViewportHeight, 100)
-    }
-    
-    initViewport()
+    setRealViewportHeight()
+    // Küçük bir gecikme ile tekrar çalıştır (mobil tarayıcıların viewport'u düzgün hesaplaması için)
+    setTimeout(setRealViewportHeight, 100)
     window.addEventListener('resize', setRealViewportHeight)
     window.addEventListener('orientationchange', () => {
       setTimeout(setRealViewportHeight, 100)
     })
-    // Visual viewport API kullan (destekleniyorsa)
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', setRealViewportHeight)
-    }
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY || window.pageYOffset
@@ -92,16 +88,16 @@ export default function Home() {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', setRealViewportHeight)
       window.removeEventListener('orientationchange', setRealViewportHeight)
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener('resize', setRealViewportHeight)
-      }
       // Body background'unu geri yükle
       document.body.style.background = ''
+      document.body.style.height = ''
+      document.body.style.minHeight = ''
+      document.documentElement.style.height = ''
     }
   }, [])
 
   return (
-    <div className="relative min-h-screen" style={{ minHeight: viewportHeight }}>
+    <div className="relative min-h-screen">
       {/* Fixed Background for entire page */}
       <div 
         className="fixed -z-10"
@@ -111,14 +107,12 @@ export default function Home() {
           right: 0,
           bottom: 0,
           width: '100%',
-          height: viewportHeight,
-          minHeight: '100vh',
         }}
       >
         {bgImages.map((bg, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
+            className={`absolute transition-opacity duration-1000 ${
               index === currentBgIndex ? 'opacity-100' : 'opacity-0'
             }`}
             style={{
@@ -128,8 +122,6 @@ export default function Home() {
               right: 0,
               bottom: 0,
               width: '100%',
-              height: viewportHeight,
-              minHeight: '100vh',
             }}
           >
             <Image

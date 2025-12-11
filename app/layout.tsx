@@ -39,7 +39,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="tr" className="h-full">
-      <body className={`${inter.variable} ${playfair.variable} ${caveat.variable} font-sans antialiased h-full`}>
+      <body className={`${inter.variable} ${playfair.variable} ${caveat.variable} font-sans antialiased h-full overflow-x-hidden`}>
         <Navigation />
         <main className="min-h-full">
           <PageTransition>
