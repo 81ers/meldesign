@@ -40,30 +40,63 @@ const featuredProjects = [
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [currentBgIndex, setCurrentBgIndex] = useState(0)
-  const [viewportHeight, setViewportHeight] = useState('100vh')
+  const [viewportHeight, setViewportHeight] = useState(0)
 
   useEffect(() => {
-    // Mobil viewport bug düzeltmesi - gerçek viewport yüksekliğini hesapla
-    const setRealViewportHeight = () => {
-      const vh = window.innerHeight * 0.01
+    // Mobile viewport height fix
+    const setVH = () => {
+      // VisualViewport API'sini kullan (mobil tarayıcılarda daha doğru)
+      const visualViewport = (window as any).visualViewport
+      const height = visualViewport?.height || window.innerHeight
+      const vh = height * 0.01
       document.documentElement.style.setProperty('--vh', `${vh}px`)
-      setViewportHeight(`${window.innerHeight}px`)
+      setViewportHeight(height)
     }
 
-    // İlk yüklemede ve resize'da çalıştır
-    setRealViewportHeight()
-    window.addEventListener('resize', setRealViewportHeight)
-    window.addEventListener('orientationchange', setRealViewportHeight)
+    // İlk yüklemede ayarla (kısa bir gecikme ile mobil tarayıcıların UI'ını hesaba katar)
+    const initialTimeout = setTimeout(() => {
+      setVH()
+    }, 100)
 
+    // VisualViewport API desteği varsa kullan (mobil Chrome için ideal)
+    const visualViewport = (window as any).visualViewport
+    if (visualViewport) {
+      visualViewport.addEventListener('resize', setVH, { passive: true })
+      visualViewport.addEventListener('scroll', setVH, { passive: true })
+    }
+
+    // Resize ve orientation change'de güncelle
+    window.addEventListener('resize', setVH, { passive: true })
+    window.addEventListener('orientationchange', () => {
+      setTimeout(setVH, 100)
+    }, { passive: true })
+
+    // Mobil tarayıcılarda scroll sırasında viewport değişikliklerini yakala
+    let ticking = false
+    let lastVHUpdate = 0
     const handleScroll = () => {
-      const scrollPosition = window.scrollY || window.pageYOffset
-      setScrollY(scrollPosition)
-      // Scroll pozisyonuna göre arkaplan resmini değiştir
-      const newIndex = Math.min(
-        Math.floor(scrollPosition / 500),
-        bgImages.length - 1
-      )
-      setCurrentBgIndex(newIndex)
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollPosition = window.scrollY || window.pageYOffset
+          setScrollY(scrollPosition)
+          
+          // Mobilde scroll sırasında viewport yüksekliğini güncelle (throttle ile)
+          const now = Date.now()
+          if (window.innerWidth <= 768 && now - lastVHUpdate > 100) {
+            setVH()
+            lastVHUpdate = now
+          }
+          
+          // Scroll pozisyonuna göre arkaplan resmini değiştir
+          const newIndex = Math.min(
+            Math.floor(scrollPosition / 500),
+            bgImages.length - 1
+          )
+          setCurrentBgIndex(newIndex)
+          ticking = false
+        })
+        ticking = true
+      }
     }
 
     // İlk render'da da çalıştır
@@ -73,9 +106,15 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     
     return () => {
+      clearTimeout(initialTimeout)
       window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', setRealViewportHeight)
-      window.removeEventListener('orientationchange', setRealViewportHeight)
+      window.removeEventListener('resize', setVH)
+      window.removeEventListener('orientationchange', setVH)
+      const visualViewport = (window as any).visualViewport
+      if (visualViewport) {
+        visualViewport.removeEventListener('resize', setVH)
+        visualViewport.removeEventListener('scroll', setVH)
+      }
     }
   }, [])
 
@@ -94,8 +133,8 @@ export default function Home() {
               top: 0,
               left: 0,
               width: '100%',
-              height: viewportHeight,
-              minHeight: '100vh',
+              height: viewportHeight ? `${viewportHeight}px` : '100vh',
+              minHeight: viewportHeight ? `${viewportHeight}px` : '100vh',
             }}
           >
             <Image
@@ -122,7 +161,10 @@ export default function Home() {
       {/* Hero Section */}
       <section 
         className="relative flex items-center justify-center overflow-hidden z-10"
-        style={{ height: viewportHeight, minHeight: '100vh' }}
+        style={{
+          height: viewportHeight ? `${viewportHeight}px` : '100vh',
+          minHeight: viewportHeight ? `${viewportHeight}px` : '100vh',
+        }}
       >
         {/* Hero Content */}
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">

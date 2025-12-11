@@ -6,7 +6,6 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
   --background-end-rgb: 255, 255, 255;
-  --vh: 1vh; /* Mobil viewport bug düzeltmesi için - JavaScript ile güncellenir */
 }
 
 * {
@@ -20,6 +19,32 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   scroll-behavior: smooth;
+}
+
+/* Mobile Viewport Height Fix */
+:root {
+  --vh: 1vh;
+}
+
+/* Fallback for browsers that support dvh */
+@supports (height: 100dvh) {
+  :root {
+    --vh: 1dvh;
+  }
+}
+
+/* Utility class for mobile viewport height */
+.h-screen-mobile {
+  height: calc(var(--vh, 1vh) * 100);
+  min-height: 100vh;
+}
+
+/* Fallback for browsers that support dvh */
+@supports (height: 100dvh) {
+  .h-screen-mobile {
+    height: 100dvh;
+    min-height: 100vh;
+  }
 }
 
 body {

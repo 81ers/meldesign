@@ -1,10 +1,3 @@
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Hizmetlerimiz | mel design studio',
-  description: 'İç mimarlık tasarımı, 3D modelleme, proje yönetimi ve anahtar teslim proje hizmetleri. Düzce merkezli profesyonel iç mimarlık çözümleri.',
-}
-
 export default function HizmetlerPage() {
   const services = [
     {

@@ -8,7 +8,6 @@ Next.js kullanılarak geliştirilmiş zarif ve modern bir iç mimarlık ofisi we
 - **Hakkımızda**: Ofis hikayesi, misyon, vizyon ve ekip bilgileri
 - **Projeler**: Panoramik görüntülerle interaktif proje galerisi
 - **Hizmetler**: Sunulan profesyonel hizmetler
-- **Blog**: Tasarım trendleri ve haberler
 - **Yorumlar**: Müşteri yorumları ve çalışılan markalar
 - **İletişim**: İletişim formu ve bilgileri
 
@@ -44,7 +43,6 @@ meldesigntr/
 │   ├── hakkimizda/        # Hakkımızda sayfası
 │   ├── projeler/          # Projeler sayfası
 │   ├── hizmetler/         # Hizmetler sayfası
-│   ├── blog/              # Blog sayfası
 │   ├── yorumlar/       # Yorumlar sayfası
 │   └── iletisim/          # İletişim sayfası
 ├── components/            # React bileşenleri
