@@ -58,11 +58,10 @@ export default function Home() {
       setVH()
     }, 100)
 
-    // VisualViewport API desteği varsa kullan (mobil Chrome için ideal)
+    // VisualViewport API desteği varsa kullan (sadece resize için, scroll'da zoom'u engellemek için scroll listener'ı kaldırdık)
     const visualViewport = (window as any).visualViewport
     if (visualViewport) {
       visualViewport.addEventListener('resize', setVH, { passive: true })
-      visualViewport.addEventListener('scroll', setVH, { passive: true })
     }
 
     // Resize ve orientation change'de güncelle
@@ -73,19 +72,11 @@ export default function Home() {
 
     // Mobil tarayıcılarda scroll sırasında viewport değişikliklerini yakala
     let ticking = false
-    let lastVHUpdate = 0
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const scrollPosition = window.scrollY || window.pageYOffset
           setScrollY(scrollPosition)
-          
-          // Mobilde scroll sırasında viewport yüksekliğini güncelle (throttle ile)
-          const now = Date.now()
-          if (window.innerWidth <= 768 && now - lastVHUpdate > 100) {
-            setVH()
-            lastVHUpdate = now
-          }
           
           // Scroll pozisyonuna göre arkaplan resmini değiştir
           const newIndex = Math.min(
@@ -113,7 +104,6 @@ export default function Home() {
       const visualViewport = (window as any).visualViewport
       if (visualViewport) {
         visualViewport.removeEventListener('resize', setVH)
-        visualViewport.removeEventListener('scroll', setVH)
       }
     }
   }, [])
@@ -121,11 +111,17 @@ export default function Home() {
   return (
     <div className="relative min-h-screen">
       {/* Fixed Background for entire page */}
-      <div className="fixed inset-0 -z-10">
+      <div 
+        className="fixed inset-0 -z-10"
+        style={{
+          touchAction: 'none',
+          WebkitTouchCallout: 'none',
+        }}
+      >
         {bgImages.map((bg, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
+            className={`absolute inset-0 transition-opacity duration-1000 bg-image-container ${
               index === currentBgIndex ? 'opacity-100' : 'opacity-0'
             }`}
             style={{
@@ -135,6 +131,9 @@ export default function Home() {
               width: '100%',
               height: viewportHeight ? `${viewportHeight}px` : '100vh',
               minHeight: viewportHeight ? `${viewportHeight}px` : '100vh',
+              transform: 'translateZ(0)',
+              backfaceVisibility: 'hidden',
+              willChange: 'opacity',
             }}
           >
             <Image
@@ -151,6 +150,9 @@ export default function Home() {
               style={{
                 objectFit: 'cover',
                 objectPosition: 'center',
+                transform: 'translateZ(0)',
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
               }}
             />
             <div className="absolute inset-0 bg-black/40" />
