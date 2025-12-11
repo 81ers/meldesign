@@ -40,54 +40,30 @@ const featuredProjects = [
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [currentBgIndex, setCurrentBgIndex] = useState(0)
-  const [viewportHeight, setViewportHeight] = useState(0)
+  const [viewportHeight, setViewportHeight] = useState('100vh')
 
   useEffect(() => {
-    // Mobile viewport height fix
-    const setVH = () => {
-      // VisualViewport API'sini kullan (mobil tarayıcılarda daha doğru)
-      const visualViewport = (window as any).visualViewport
-      const height = visualViewport?.height || window.innerHeight
-      const vh = height * 0.01
+    // Mobil viewport bug düzeltmesi - gerçek viewport yüksekliğini hesapla
+    const setRealViewportHeight = () => {
+      const vh = window.innerHeight * 0.01
       document.documentElement.style.setProperty('--vh', `${vh}px`)
-      setViewportHeight(height)
+      setViewportHeight(`${window.innerHeight}px`)
     }
 
-    // İlk yüklemede ayarla (kısa bir gecikme ile mobil tarayıcıların UI'ını hesaba katar)
-    const initialTimeout = setTimeout(() => {
-      setVH()
-    }, 100)
+    // İlk yüklemede ve resize'da çalıştır
+    setRealViewportHeight()
+    window.addEventListener('resize', setRealViewportHeight)
+    window.addEventListener('orientationchange', setRealViewportHeight)
 
-    // VisualViewport API desteği varsa kullan (sadece resize için, scroll'da zoom'u engellemek için scroll listener'ı kaldırdık)
-    const visualViewport = (window as any).visualViewport
-    if (visualViewport) {
-      visualViewport.addEventListener('resize', setVH, { passive: true })
-    }
-
-    // Resize ve orientation change'de güncelle
-    window.addEventListener('resize', setVH, { passive: true })
-    window.addEventListener('orientationchange', () => {
-      setTimeout(setVH, 100)
-    }, { passive: true })
-
-    // Mobil tarayıcılarda scroll sırasında viewport değişikliklerini yakala
-    let ticking = false
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const scrollPosition = window.scrollY || window.pageYOffset
-          setScrollY(scrollPosition)
-          
-          // Scroll pozisyonuna göre arkaplan resmini değiştir
-          const newIndex = Math.min(
-            Math.floor(scrollPosition / 500),
-            bgImages.length - 1
-          )
-          setCurrentBgIndex(newIndex)
-          ticking = false
-        })
-        ticking = true
-      }
+      const scrollPosition = window.scrollY || window.pageYOffset
+      setScrollY(scrollPosition)
+      // Scroll pozisyonuna göre arkaplan resmini değiştir
+      const newIndex = Math.min(
+        Math.floor(scrollPosition / 500),
+        bgImages.length - 1
+      )
+      setCurrentBgIndex(newIndex)
     }
 
     // İlk render'da da çalıştır
@@ -97,31 +73,20 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     
     return () => {
-      clearTimeout(initialTimeout)
       window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', setVH)
-      window.removeEventListener('orientationchange', setVH)
-      const visualViewport = (window as any).visualViewport
-      if (visualViewport) {
-        visualViewport.removeEventListener('resize', setVH)
-      }
+      window.removeEventListener('resize', setRealViewportHeight)
+      window.removeEventListener('orientationchange', setRealViewportHeight)
     }
   }, [])
 
   return (
     <div className="relative min-h-screen">
       {/* Fixed Background for entire page */}
-      <div 
-        className="fixed inset-0 -z-10"
-        style={{
-          touchAction: 'none',
-          WebkitTouchCallout: 'none',
-        }}
-      >
+      <div className="fixed inset-0 -z-10">
         {bgImages.map((bg, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 bg-image-container ${
+            className={`absolute inset-0 transition-opacity duration-1000 ${
               index === currentBgIndex ? 'opacity-100' : 'opacity-0'
             }`}
             style={{
@@ -129,11 +94,8 @@ export default function Home() {
               top: 0,
               left: 0,
               width: '100%',
-              height: viewportHeight ? `${viewportHeight}px` : '100vh',
-              minHeight: viewportHeight ? `${viewportHeight}px` : '100vh',
-              transform: 'translateZ(0)',
-              backfaceVisibility: 'hidden',
-              willChange: 'opacity',
+              height: viewportHeight,
+              minHeight: '100vh',
             }}
           >
             <Image
@@ -150,9 +112,6 @@ export default function Home() {
               style={{
                 objectFit: 'cover',
                 objectPosition: 'center',
-                transform: 'translateZ(0)',
-                backfaceVisibility: 'hidden',
-                WebkitBackfaceVisibility: 'hidden',
               }}
             />
             <div className="absolute inset-0 bg-black/40" />
@@ -163,10 +122,7 @@ export default function Home() {
       {/* Hero Section */}
       <section 
         className="relative flex items-center justify-center overflow-hidden z-10"
-        style={{
-          height: viewportHeight ? `${viewportHeight}px` : '100vh',
-          minHeight: viewportHeight ? `${viewportHeight}px` : '100vh',
-        }}
+        style={{ height: viewportHeight, minHeight: '100vh' }}
       >
         {/* Hero Content */}
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
