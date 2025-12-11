@@ -161,6 +161,31 @@ export default function TeklifAlin() {
     return () => window.removeEventListener('keydown', handleEscape)
   }, [submitStatus])
 
+  // Mobil klavye sorunu için textarea focus handler
+  const handleTextareaFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    // Mobil cihaz kontrolü
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    
+    if (isMobile) {
+      // iOS Safari için daha uzun gecikme, Android için daha kısa
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent)
+      const delay = isIOS ? 500 : 300
+      
+      // Küçük bir gecikme ile scroll yap (klavye açılmasını bekle)
+      setTimeout(() => {
+        const textarea = e.target
+        const textareaRect = textarea.getBoundingClientRect()
+        const viewportHeight = window.innerHeight
+        const scrollOffset = textareaRect.top - (viewportHeight / 3) // Textarea'yı ekranın üst 1/3'üne yerleştir
+        
+        window.scrollBy({
+          top: scrollOffset,
+          behavior: 'smooth'
+        })
+      }, delay)
+    }
+  }
+
   return (
     <div className="min-h-screen pt-20 bg-gray-50">
       {/* Success Modal Pop-up */}
@@ -230,7 +255,7 @@ export default function TeklifAlin() {
         </div>
       )}
 
-      <div className="max-w-2xl mx-auto px-4 py-16">
+      <div className="max-w-2xl mx-auto px-4 py-16 pb-32 md:pb-16">
         <h1 className="text-4xl font-serif font-bold text-gray-900 mb-4">
           Teklif Alın
         </h1>
@@ -323,6 +348,7 @@ export default function TeklifAlin() {
                 name="aciklama"
                 value={formData.aciklama}
                 onChange={handleChange}
+                onFocus={handleTextareaFocus}
                 rows={4}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-vizon-700 resize-none"
               />
