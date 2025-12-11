@@ -6,6 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
   --background-end-rgb: 255, 255, 255;
+  --vh: 1vh; /* Mobil viewport bug düzeltmesi için - JavaScript ile güncellenir */
 }
 
 * {

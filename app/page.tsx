@@ -40,8 +40,21 @@ const featuredProjects = [
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
   const [currentBgIndex, setCurrentBgIndex] = useState(0)
+  const [viewportHeight, setViewportHeight] = useState('100vh')
 
   useEffect(() => {
+    // Mobil viewport bug düzeltmesi - gerçek viewport yüksekliğini hesapla
+    const setRealViewportHeight = () => {
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+      setViewportHeight(`${window.innerHeight}px`)
+    }
+
+    // İlk yüklemede ve resize'da çalıştır
+    setRealViewportHeight()
+    window.addEventListener('resize', setRealViewportHeight)
+    window.addEventListener('orientationchange', setRealViewportHeight)
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY || window.pageYOffset
       setScrollY(scrollPosition)
@@ -58,7 +71,12 @@ export default function Home() {
 
     // Scroll event listener ekle
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', setRealViewportHeight)
+      window.removeEventListener('orientationchange', setRealViewportHeight)
+    }
   }, [])
 
   return (
@@ -76,7 +94,8 @@ export default function Home() {
               top: 0,
               left: 0,
               width: '100%',
-              height: '100%',
+              height: viewportHeight,
+              minHeight: '100vh',
             }}
           >
             <Image
@@ -101,7 +120,10 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden z-10">
+      <section 
+        className="relative flex items-center justify-center overflow-hidden z-10"
+        style={{ height: viewportHeight, minHeight: '100vh' }}
+      >
         {/* Hero Content */}
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 animate-fade-in">
