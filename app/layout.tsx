@@ -24,6 +24,12 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   title: 'mel design studio | Düzce İç Mimarlık Ofisi',
   description: 'Zarif ve modern iç mimarlık çözümleri',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 }
 
 export default function RootLayout({
@@ -32,10 +38,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="tr">
-      <body className={`${inter.variable} ${playfair.variable} ${caveat.variable} font-sans antialiased`}>
+    <html lang="tr" className="h-full">
+      <body className={`${inter.variable} ${playfair.variable} ${caveat.variable} font-sans antialiased h-full`}>
         <Navigation />
-        <main className="min-h-screen">
+        <main className="min-h-full">
           <PageTransition>
             {children}
           </PageTransition>

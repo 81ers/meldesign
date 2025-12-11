@@ -43,6 +43,9 @@ export default function Home() {
   const [viewportHeight, setViewportHeight] = useState('100vh')
 
   useEffect(() => {
+    // Body background'unu kaldır (ana sayfa için)
+    document.body.style.background = 'transparent'
+    
     // Mobil viewport bug düzeltmesi - gerçek viewport yüksekliğini hesapla
     const setRealViewportHeight = () => {
       const vh = window.innerHeight * 0.01
@@ -51,9 +54,22 @@ export default function Home() {
     }
 
     // İlk yüklemede ve resize'da çalıştır
-    setRealViewportHeight()
+    // Küçük bir gecikme ile çalıştır (mobil tarayıcıların viewport'u düzgün hesaplaması için)
+    const initViewport = () => {
+      setRealViewportHeight()
+      // Kısa bir süre sonra tekrar kontrol et
+      setTimeout(setRealViewportHeight, 100)
+    }
+    
+    initViewport()
     window.addEventListener('resize', setRealViewportHeight)
-    window.addEventListener('orientationchange', setRealViewportHeight)
+    window.addEventListener('orientationchange', () => {
+      setTimeout(setRealViewportHeight, 100)
+    })
+    // Visual viewport API kullan (destekleniyorsa)
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', setRealViewportHeight)
+    }
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY || window.pageYOffset
@@ -76,13 +92,29 @@ export default function Home() {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', setRealViewportHeight)
       window.removeEventListener('orientationchange', setRealViewportHeight)
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', setRealViewportHeight)
+      }
+      // Body background'unu geri yükle
+      document.body.style.background = ''
     }
   }, [])
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen" style={{ minHeight: viewportHeight }}>
       {/* Fixed Background for entire page */}
-      <div className="fixed inset-0 -z-10">
+      <div 
+        className="fixed -z-10"
+        style={{
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: viewportHeight,
+          minHeight: '100vh',
+        }}
+      >
         {bgImages.map((bg, index) => (
           <div
             key={index}
@@ -93,6 +125,8 @@ export default function Home() {
               position: 'fixed',
               top: 0,
               left: 0,
+              right: 0,
+              bottom: 0,
               width: '100%',
               height: viewportHeight,
               minHeight: '100vh',
