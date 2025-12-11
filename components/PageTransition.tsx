@@ -42,8 +42,12 @@ export default function PageTransition({ children }: { children: React.ReactNode
       const link = target.closest('a[href]')
       if (link && (link as HTMLAnchorElement).href.startsWith(window.location.origin)) {
         const href = (link as HTMLAnchorElement).getAttribute('href')
+        // Sadece farklı bir sayfaya gidiliyorsa ve hash değilse transition başlat
         if (href && href !== pathname && !href.startsWith('#')) {
-          handleTransitionStart()
+          // Eğer link zaten preventDefault edilmişse (aynı sayfa), transition başlatma
+          if (!e.defaultPrevented) {
+            handleTransitionStart()
+          }
         }
       }
     }
