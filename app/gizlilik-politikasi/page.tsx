@@ -1,3 +1,10 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Gizlilik Politikası | mel design studio',
+  description: 'Mel Design Studio gizlilik politikası. Kişisel verilerinizin nasıl işlendiği ve korunduğu hakkında bilgi.',
+}
+
 export default function GizlilikPolitikasiPage() {
   return (
     <div className="pt-20">
