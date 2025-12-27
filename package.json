@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rm -rf .next && rm -rf node_modules/.cache",
+    "clean:win": "powershell -Command \"if (Test-Path .next) { Remove-Item -Recurse -Force .next }; if (Test-Path node_modules\\.cache) { Remove-Item -Recurse -Force node_modules\\.cache }\"",
+    "clean:all": "npm run clean && npm cache clean --force",
+    "clean:all:win": "npm run clean:win && npm cache clean --force",
+    "fresh": "npm run clean && npm run dev",
+    "fresh:win": "npm run clean:win && npm run dev"
   },
   "dependencies": {
     "@vercel/analytics": "^1.5.0",

@@ -37,9 +37,38 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "InteriorDesignBusiness",
+    "name": "mel design studio",
+    "description": "Düzce merkezli ofisimizde yaratıcı iç mimarlık çözümleri sunuyoruz.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Kültür Mahallesi, Fırın Sokak No:6",
+      "addressLocality": "Düzce",
+      "addressRegion": "Düzce",
+      "postalCode": "81010",
+      "addressCountry": "TR"
+    },
+    "telephone": "+90 541 635 88 81",
+    "email": "info@meldesign.tr",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "40.843823",
+      "longitude": "31.156708"
+    },
+    "sameAs": [
+      "https://www.instagram.com/meldesign.studio/"
+    ]
+  }
+
   return (
     <html lang="tr">
       <body className={`${inter.variable} ${playfair.variable} ${caveat.variable} font-sans antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
         <Navigation />
         <main className="min-h-screen">
           <PageTransition>
