@@ -37,7 +37,7 @@ export default function Footer() {
               <span>+90 541 635 88 81</span>
             </a>
             <span>
-              Kültür Mahallesi, Fırın Sokak No:6, 81010 Merkez / Düzce
+              Kültür Mahallesi, Rasim Betir Paşa Bulvarı, Saraçoğlu İş Merkezi No:35, Kat:2 No:6, 81000 Merkez / Düzce
             </span>
             <a
               href="https://www.instagram.com/meldesign.studio/"

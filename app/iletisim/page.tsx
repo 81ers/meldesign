@@ -30,8 +30,8 @@ export default function IletisimPage() {
                     Adres
                   </h3>
                   <p className="text-gray-600">
-                    Kültür Mahallesi, Fırın Sokak No:6<br />
-                    81010 Merkez / Düzce
+                    Kültür Mahallesi, Rasim Betir Paşa Bulvarı, Saraçoğlu İş Merkezi No:35, Kat:2 No:6<br />
+                    81000 Merkez / Düzce
                   </p>
                 </div>
                 <div>
@@ -144,7 +144,7 @@ export default function IletisimPage() {
                   scrolling="no"
                   marginHeight={0}
                   marginWidth={0}
-                  src={`https://www.openstreetmap.org/export/embed.html?bbox=${31.156708 - 0.01},${40.843823 - 0.01},${31.156708 + 0.01},${40.843823 + 0.01}&layer=mapnik&marker=40.843823,31.156708`}
+                  src={`https://www.openstreetmap.org/export/embed.html?bbox=${31.1592115 - 0.01},${40.8448253 - 0.01},${31.1592115 + 0.01},${40.8448253 + 0.01}&layer=mapnik&marker=40.8448253,31.1592115`}
                   style={{ border: 0 }}
                   allowFullScreen
                   />

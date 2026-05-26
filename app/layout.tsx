@@ -48,18 +48,18 @@ export default function RootLayout({
     "description": "Düzce merkezli ofisimizde yaratıcı iç mimarlık çözümleri sunuyoruz.",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Kültür Mahallesi, Fırın Sokak No:6",
+      "streetAddress": "Kültür Mahallesi, Rasim Betir Paşa Bulvarı, Saraçoğlu İş Merkezi No:35, Kat:2 No:6",
       "addressLocality": "Düzce",
       "addressRegion": "Düzce",
-      "postalCode": "81010",
+      "postalCode": "81000",
       "addressCountry": "TR"
     },
     "telephone": "+90 541 635 88 81",
     "email": "info@meldesign.tr",
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": "40.843823",
-      "longitude": "31.156708"
+      "latitude": "40.8448253",
+      "longitude": "31.1592115"
     },
     "sameAs": [
       "https://www.instagram.com/meldesign.studio/"
