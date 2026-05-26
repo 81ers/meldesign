@@ -116,7 +116,7 @@ export default function IletisimPage() {
                   </svg>
                 </span>
                 <a
-                  href="https://www.google.com/maps/dir//40.8438333,31.1567222/@40.8438333,31.1541473,17z/data=!4m6!1m5!3m4!2zNDDCsDUwJzM3LjgiTiAzMcKwMDknMjQuMiJF!8m2!3d40.8438333!4d31.1567222?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
+                  href="https://www.google.com/maps/dir//mel+design+studio,+K%C3%BClt%C3%BCr,+Rasim+Betir+Pa%C5%9Fa+Blv.+Sara%C3%A7o%C4%9Flu+%C4%B0%C5%9F+Merkezi+no:+35+Kat:+2+No:+6,+81010+D%C3%BCzce/@40.8445805,31.1588754,19.65z/data=!4m16!1m7!3m6!1s0x409d750779f6cb65:0xfc152013f1ae635c!2smel+design+studio!8m2!3d40.84479!4d31.1593062!16s%2Fg%2F11xv4qvmqw!4m7!1m0!1m5!1m1!1s0x409d750779f6cb65:0xfc152013f1ae635c!2m2!1d31.1593062!2d40.84479?entry=ttu&g_ep=EgoyMDI2MDUyMC4wIKXMDSoASAFQAw%3D%3D"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow"
