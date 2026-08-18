@@ -89,14 +89,9 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-900 mb-3">
               {project.title}
             </h1>
-            <p className="text-sm md:text-base text-gray-400 font-light mb-6">
+            <p className="text-sm md:text-base text-gray-400 font-light">
               {project.location} / {project.type}
             </p>
-            <div className="prose prose-lg max-w-none">
-              <p className="text-base md:text-lg text-gray-700 leading-relaxed">
-                {project.description}
-              </p>
-            </div>
           </div>
 
           {/* Right Side: First Image Large, Others Small Below */}

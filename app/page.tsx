@@ -21,11 +21,11 @@ const featuredProjects = [
   },
   {
     id: 2,
-    title: 'VİLLA TRE',
+    title: 'VILLA S.B.',
     category: 'Konut',
     location: 'Düzce',
-    image: '/projeler/Villatreduzce/2.webp',
-    slug: 'villa-tre',
+    image: '/projeler/villasb/1.webp',
+    slug: 'villa-sb',
   },
   {
     id: 3,
@@ -228,7 +228,7 @@ export default function Home() {
                   (window as any).__pageTransitionStart()
                 }
               }}
-              className="inline-block px-8 py-3 bg-vizon-700 text-gray-900 font-medium hover:bg-vizon-600 transition-colors duration-200"
+              className="inline-block px-8 py-3 bg-vizon-700 text-gray-900 font-medium hover:bg-white transition-colors duration-300"
             >
               Tüm Projelerimizi Görüntüleyin
             </Link>
