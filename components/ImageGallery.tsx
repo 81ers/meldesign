@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 
 interface ImageGalleryProps {
@@ -10,66 +10,83 @@ interface ImageGalleryProps {
   initialIndex?: number
 }
 
+const MIN_SCALE = 1
+const MAX_SCALE = 4
+
+function getTouchDistance(touches: React.TouchList | TouchList) {
+  const dx = touches[0].clientX - touches[1].clientX
+  const dy = touches[0].clientY - touches[1].clientY
+  return Math.hypot(dx, dy)
+}
+
 export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0 }: ImageGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
   const [prevIndex, setPrevIndex] = useState(initialIndex)
+  const [scale, setScale] = useState(1)
+  const [translate, setTranslate] = useState({ x: 0, y: 0 })
+  const [isInteracting, setIsInteracting] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const imageAreaRef = useRef<HTMLDivElement>(null)
+  const lastPinchDistance = useRef<number | null>(null)
+  const lastPanPoint = useRef<{ x: number; y: number } | null>(null)
+  const isDragging = useRef(false)
+
+  const resetZoom = useCallback(() => {
+    setScale(1)
+    setTranslate({ x: 0, y: 0 })
+  }, [])
 
   useEffect(() => {
     setCurrentIndex(initialIndex)
     setPrevIndex(initialIndex)
-  }, [initialIndex, isOpen])
+    resetZoom()
+  }, [initialIndex, isOpen, resetZoom])
+
+  useEffect(() => {
+    resetZoom()
+  }, [currentIndex, resetZoom])
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
-      // Fullscreen moduna geç
-      if (containerRef.current) {
-        const element = containerRef.current as HTMLElement & {
-          requestFullscreen?: () => Promise<void>
-        }
-        if (element.requestFullscreen) {
-          element.requestFullscreen().catch((err) => {
-            console.log('Fullscreen hatası:', err)
-          })
-        } else if ((element as any).webkitRequestFullscreen) {
-          (element as any).webkitRequestFullscreen()
-        } else if ((element as any).mozRequestFullScreen) {
-          (element as any).mozRequestFullScreen()
-        } else if ((element as any).msRequestFullscreen) {
-          (element as any).msRequestFullscreen()
-        }
+      const element = containerRef.current as (HTMLElement & {
+        requestFullscreen?: () => Promise<void>
+        webkitRequestFullscreen?: () => void
+        mozRequestFullScreen?: () => void
+        msRequestFullscreen?: () => void
+      }) | null
+
+      if (element?.requestFullscreen) {
+        element.requestFullscreen().catch(() => {})
+      } else if (element?.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen()
+      } else if (element?.mozRequestFullScreen) {
+        element.mozRequestFullScreen()
+      } else if (element?.msRequestFullscreen) {
+        element.msRequestFullscreen()
       }
     } else {
       document.body.style.overflow = 'unset'
-      // Fullscreen'den çık
       if (document.fullscreenElement) {
+        const doc = document as Document & {
+          webkitExitFullscreen?: () => void
+          mozCancelFullScreen?: () => void
+          msExitFullscreen?: () => void
+        }
         if (document.exitFullscreen) {
-          document.exitFullscreen().catch((err) => {
-            console.log('Exit fullscreen hatası:', err)
-          })
-        } else if ((document as any).webkitExitFullscreen) {
-          (document as any).webkitExitFullscreen()
-        } else if ((document as any).mozCancelFullScreen) {
-          (document as any).mozCancelFullScreen()
-        } else if ((document as any).msExitFullscreen) {
-          (document as any).msExitFullscreen()
+          document.exitFullscreen().catch(() => {})
+        } else if (doc.webkitExitFullscreen) {
+          doc.webkitExitFullscreen()
+        } else if (doc.mozCancelFullScreen) {
+          doc.mozCancelFullScreen()
+        } else if (doc.msExitFullscreen) {
+          doc.msExitFullscreen()
         }
       }
     }
+
     return () => {
       document.body.style.overflow = 'unset'
-      if (document.fullscreenElement) {
-        if (document.exitFullscreen) {
-          document.exitFullscreen().catch(() => {})
-        } else if ((document as any).webkitExitFullscreen) {
-          (document as any).webkitExitFullscreen()
-        } else if ((document as any).mozCancelFullScreen) {
-          (document as any).mozCancelFullScreen()
-        } else if ((document as any).msExitFullscreen) {
-          (document as any).msExitFullscreen()
-        }
-      }
     }
   }, [isOpen])
 
@@ -90,38 +107,54 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
     }
   }
 
+  const clampScale = (value: number) => Math.min(MAX_SCALE, Math.max(MIN_SCALE, value))
+
+  useEffect(() => {
+    const imageArea = imageAreaRef.current
+    if (!imageArea || !isOpen) return
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      const zoomFactor = e.deltaY < 0 ? 1.12 : 0.88
+      setScale((prev) => {
+        const next = clampScale(prev * zoomFactor)
+        if (next <= 1) {
+          setTranslate({ x: 0, y: 0 })
+        }
+        return next
+      })
+    }
+
+    imageArea.addEventListener('wheel', handleWheel, { passive: false })
+    return () => imageArea.removeEventListener('wheel', handleWheel)
+  }, [isOpen])
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return
       if (e.key === 'Escape') {
-        // ESC ile fullscreen'den çık ve albümü kapat
+        if (scale > 1) {
+          resetZoom()
+          return
+        }
         if (document.fullscreenElement) {
-          if (document.exitFullscreen) {
-            document.exitFullscreen().then(() => {
-              onClose()
-            }).catch(() => {
-              onClose()
-            })
-          } else {
-            onClose()
-          }
+          document.exitFullscreen?.().then(() => onClose()).catch(() => onClose())
         } else {
           onClose()
         }
-      } else if (e.key === 'ArrowLeft') {
+      } else if (e.key === 'ArrowLeft' && scale <= 1) {
         handlePrevious()
-      } else if (e.key === 'ArrowRight') {
+      } else if (e.key === 'ArrowRight' && scale <= 1) {
         handleNext()
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, images.length, onClose])
+  }, [isOpen, onClose, scale, resetZoom, currentIndex, images.length])
 
-  // Fullscreen değişikliklerini dinle
   useEffect(() => {
     const handleFullscreenChange = () => {
-      // Eğer fullscreen'den çıkıldıysa albümü kapat
       if (!document.fullscreenElement && isOpen) {
         onClose()
       }
@@ -130,52 +163,95 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
   }, [isOpen, onClose])
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsInteracting(true)
+    if (e.touches.length === 2) {
+      lastPinchDistance.current = getTouchDistance(e.touches)
+      lastPanPoint.current = null
+    } else if (e.touches.length === 1 && scale > 1) {
+      lastPanPoint.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+    }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 2 && lastPinchDistance.current !== null) {
+      e.preventDefault()
+      const distance = getTouchDistance(e.touches)
+      const ratio = distance / lastPinchDistance.current
+      setScale((prev) => {
+        const next = clampScale(prev * ratio)
+        if (next <= 1) {
+          setTranslate({ x: 0, y: 0 })
+        }
+        return next
+      })
+      lastPinchDistance.current = distance
+    } else if (e.touches.length === 1 && scale > 1 && lastPanPoint.current) {
+      e.preventDefault()
+      const dx = e.touches[0].clientX - lastPanPoint.current.x
+      const dy = e.touches[0].clientY - lastPanPoint.current.y
+      setTranslate((prev) => ({ x: prev.x + dx, y: prev.y + dy }))
+      lastPanPoint.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+    }
+  }
+
+  const handleTouchEnd = () => {
+    lastPinchDistance.current = null
+    lastPanPoint.current = null
+    setIsInteracting(false)
+  }
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (scale <= 1) return
+    setIsInteracting(true)
+    isDragging.current = true
+    lastPanPoint.current = { x: e.clientX, y: e.clientY }
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current || !lastPanPoint.current || scale <= 1) return
+    const dx = e.clientX - lastPanPoint.current.x
+    const dy = e.clientY - lastPanPoint.current.y
+    setTranslate((prev) => ({ x: prev.x + dx, y: prev.y + dy }))
+    lastPanPoint.current = { x: e.clientX, y: e.clientY }
+  }
+
+  const handleMouseUp = () => {
+    isDragging.current = false
+    lastPanPoint.current = null
+    setIsInteracting(false)
+  }
+
+  const handleClose = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen?.().then(() => onClose()).catch(() => onClose())
+    } else {
+      onClose()
+    }
+  }
+
   if (!isOpen || images.length === 0) return null
 
   return (
     <div
       ref={containerRef}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black"
-      onClick={onClose}
+      onClick={handleClose}
     >
-      {/* Close Button */}
       <button
         onClick={(e) => {
           e.stopPropagation()
-          if (document.fullscreenElement) {
-            if (document.exitFullscreen) {
-              document.exitFullscreen().then(() => {
-                onClose()
-              }).catch(() => {
-                onClose()
-              })
-            } else {
-              onClose()
-            }
-          } else {
-            onClose()
-          }
+          handleClose()
         }}
         className="absolute top-4 right-4 z-10 text-white hover:text-gray-300 transition-colors"
         aria-label="Kapat"
       >
-        <svg
-          className="w-8 h-8"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M6 18L18 6M6 6l12 12"
-          />
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
-      {/* Previous Button */}
-      {images.length > 1 && (
+      {images.length > 1 && scale <= 1 && (
         <button
           onClick={(e) => {
             e.stopPropagation()
@@ -184,24 +260,13 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
           className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:text-gray-300 transition-colors bg-black/50 rounded-full p-2"
           aria-label="Önceki"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
       )}
 
-      {/* Next Button */}
-      {images.length > 1 && (
+      {images.length > 1 && scale <= 1 && (
         <button
           onClick={(e) => {
             e.stopPropagation()
@@ -210,75 +275,67 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
           className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:text-gray-300 transition-colors bg-black/50 rounded-full p-2"
           aria-label="Sonraki"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       )}
 
-      {/* Image Container - Tam Ekran */}
       <div
-        className="relative w-full h-full flex items-center justify-center"
+        ref={imageAreaRef}
+        className="relative w-full h-full flex items-center justify-center overflow-hidden touch-none select-none"
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        style={{ cursor: scale > 1 ? 'grab' : 'default' }}
       >
         <div className="relative w-full h-full flex items-center justify-center">
-          {/* Önceki resim - fade out (sadece geçiş sırasında) */}
-          {prevIndex !== currentIndex && (
+          {prevIndex !== currentIndex && scale <= 1 && (
             <div
               key={`prev-${prevIndex}`}
               className="absolute inset-0 w-full h-full animate-fade-out pointer-events-none"
             >
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={images[prevIndex]}
                 alt={`Görüntü ${prevIndex + 1}`}
-                fill
-                className="object-contain"
-                sizes="100vw"
-                quality={95}
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                unoptimized
+                className="w-full h-full object-contain"
+                draggable={false}
               />
             </div>
           )}
-          {/* Yeni resim - fade in */}
+
           <div
             key={`current-${currentIndex}`}
-            className="absolute inset-0 w-full h-full animate-fade-in"
+            className={`absolute inset-0 w-full h-full flex items-center justify-center ${scale <= 1 ? 'animate-fade-in' : ''}`}
+            style={{
+              transform: `translate(${translate.x}px, ${translate.y}px) scale(${scale})`,
+              transition: isInteracting ? 'none' : 'transform 0.08s ease-out',
+            }}
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={images[currentIndex]}
               alt={`Görüntü ${currentIndex + 1}`}
-              fill
-              className="object-contain"
-              priority={currentIndex === initialIndex}
-              sizes="100vw"
-              quality={90}
-              unoptimized
+              className="max-w-full max-h-full w-auto h-auto object-contain"
+              draggable={false}
             />
           </div>
         </div>
       </div>
 
-      {/* Image Counter */}
       {images.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 text-white text-sm bg-black/50 px-4 py-2 rounded-full">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 text-white text-sm bg-black/50 px-4 py-2 rounded-full pointer-events-none">
           {currentIndex + 1} / {images.length}
         </div>
       )}
 
-      {/* Thumbnail Navigation */}
-      {images.length > 1 && images.length <= 10 && (
+      {images.length > 1 && images.length <= 10 && scale <= 1 && (
         <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-10 flex gap-2 max-w-4xl overflow-x-auto px-4">
           {images.map((img, index) => (
             <button
@@ -309,5 +366,3 @@ export default function ImageGallery({ images, isOpen, onClose, initialIndex = 0
     </div>
   )
 }
-
-
