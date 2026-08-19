@@ -42,22 +42,33 @@ a {
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
+/* Custom scrollbar — masaüstü only */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
+  ::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
+  ::-webkit-scrollbar-thumb {
+    background: #6b7280;
+    border-radius: 0;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: #ffffff;
+  }
+
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: #9CA3AF #ffffff;
+  }
 }
 
 /* Hide scrollbar for panorama viewer */

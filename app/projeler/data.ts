@@ -99,7 +99,7 @@ export const projects: Project[] = [
     id: 5,
     title: 'VILLA N.Y.',
     location: 'Bolu',
-    type: 'Konut Peyzaj',
+    type: 'Konut',
     folder: 'villanypeyzaj',
     slug: 'villa-ny',
     images: [
