@@ -83,7 +83,7 @@ export default function HakkimizdaPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
               <div className="order-2 md:order-1">
-                <div className="relative aspect-[4/5] w-full mb-4 overflow-hidden rounded-lg">
+                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg">
                   <div 
                     className={`relative w-full h-full transition-all duration-1000 ease-out ${
                       image2Loaded 
@@ -108,22 +108,6 @@ export default function HakkimizdaPage() {
                     />
                   </div>
                 </div>
-                <a
-                  href="https://www.youtube.com/watch?v=4LRGN95uL9g"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-gray-900 hover:text-gray-700 transition-colors"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                  </svg>
-                  <span className="text-base font-medium">İşini İyi Yapanlar / İÇ MİMAR MELİS YALÇIN mel design studio (11. Bölüm)</span>
-                </a>
               </div>
               <div className="max-w-none order-1 md:order-2">
                 <p className="text-lg md:text-xl text-gray-600 leading-relaxed mb-4">
