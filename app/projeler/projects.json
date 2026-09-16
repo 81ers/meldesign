@@ -22,7 +22,7 @@
     "type": "Konut",
     "folder": "Villatreduzce",
     "slug": "villa-tre",
-    "visible": true,
+    "visible": false,
     "images": [
       "/projeler/Villatreduzce/4.webp",
       "/projeler/Villatreduzce/5.webp",
