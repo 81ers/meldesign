@@ -158,5 +158,24 @@
       "/projeler/residence01/9a.webp",
       "/projeler/residence01/10a.webp"
     ]
+  },
+  {
+    "id": 9,
+    "title": "test1",
+    "location": "Bolu",
+    "type": "Mağaza",
+    "folder": "test1",
+    "slug": "test1",
+    "visible": true,
+    "images": [
+      "/projeler/test1/f87a350ecbfa481ba91a6920f3409158.webp",
+      "/projeler/test1/b33bbd66c5df442aa18c2b1cb0963964.webp",
+      "/projeler/test1/00804012b2854fe082f296c95877b02e.webp",
+      "/projeler/test1/9af186d9ee344a8fb320ce51f9c0a50c.webp",
+      "/projeler/test1/38b100b749374596b763a9568cb33b0b.webp",
+      "/projeler/test1/032d3e91ce0d432ba17095c8b6dfd7e2.webp",
+      "/projeler/test1/8a5f6a0c004047aba2f4d2db039af904.webp",
+      "/projeler/test1/1011cf740247450cb713424eea219c0c.webp"
+    ]
   }
 ]
