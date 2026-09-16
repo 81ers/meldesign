@@ -6,7 +6,7 @@
     "type": "Mağaza",
     "folder": "LINSSCONCEPT",
     "slug": "lins-concept",
-    "visible": false,
+    "visible": true,
     "images": [
       "/projeler/LINSSCONCEPT/LINS2.webp",
       "/projeler/LINSSCONCEPT/LINS3.webp",
@@ -24,8 +24,8 @@
     "slug": "villa-tre",
     "visible": true,
     "images": [
-      "/projeler/Villatreduzce/4.webp",
       "/projeler/Villatreduzce/2.webp",
+      "/projeler/Villatreduzce/4.webp",
       "/projeler/Villatreduzce/5.webp",
       "/projeler/Villatreduzce/6.webp",
       "/projeler/Villatreduzce/7.webp",
@@ -166,7 +166,7 @@
     "type": "Mağaza",
     "folder": "test1",
     "slug": "test1",
-    "visible": true,
+    "visible": false,
     "images": [
       "/projeler/test1/f87a350ecbfa481ba91a6920f3409158.webp",
       "/projeler/test1/b33bbd66c5df442aa18c2b1cb0963964.webp",
