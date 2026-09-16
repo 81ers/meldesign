@@ -15,7 +15,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
   const [initialImageIndex, setInitialImageIndex] = useState(0)
 
-  const project = projects.find((p) => p.slug === slug)
+  const project = projects.find((p) => p.slug === slug && p.visible)
 
   if (!project) {
     return (

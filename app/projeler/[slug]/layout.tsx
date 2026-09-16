@@ -6,7 +6,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const project = projects.find((p) => p.slug === params.slug)
+  const project = projects.find((p) => p.slug === params.slug && p.visible)
 
   if (!project) {
     return {

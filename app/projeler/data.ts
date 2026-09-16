@@ -1,3 +1,5 @@
+import projectsJson from './projects.json'
+
 export interface Project {
   id: number
   title: string
@@ -5,160 +7,11 @@ export interface Project {
   type: string
   folder: string
   slug: string
+  visible: boolean
   images: string[]
 }
 
-export const projects: Project[] = [
-  {
-    id: 1,
-    title: "LINS'S CONCEPT",
-    location: 'Düzce',
-    type: 'Mağaza',
-    folder: 'LINSSCONCEPT',
-    slug: 'lins-concept',
-    images: [
-      "/projeler/LINSSCONCEPT/LINS2.webp",
-      "/projeler/LINSSCONCEPT/LINS3.webp",
-      "/projeler/LINSSCONCEPT/LINS4.webp",
-      "/projeler/LINSSCONCEPT/LINS5.webp",
-      "/projeler/LINSSCONCEPT/LINS6.webp",
-    ],
-  },
-  {
-    id: 2,
-    title: 'VILLA TRE',
-    location: 'Düzce',
-    type: 'Konut',
-    folder: 'Villatreduzce',
-    slug: 'villa-tre',
-    images: [
-      "/projeler/Villatreduzce/2.webp",
-      "/projeler/Villatreduzce/4.webp",
-      "/projeler/Villatreduzce/5.webp",
-      "/projeler/Villatreduzce/6.webp",
-      "/projeler/Villatreduzce/7.webp",
-      "/projeler/Villatreduzce/8.webp",
-      "/projeler/Villatreduzce/9.webp",
-      "/projeler/Villatreduzce/10.webp",
-      "/projeler/Villatreduzce/11.webp",
-      "/projeler/Villatreduzce/13.webp",
-      "/projeler/Villatreduzce/12.webp",
-      "/projeler/Villatreduzce/22.webp",
-      "/projeler/Villatreduzce/20.webp",
-      "/projeler/Villatreduzce/18.webp",
-      "/projeler/Villatreduzce/23.webp",
-      "/projeler/Villatreduzce/14.webp",
-    ],
-  },
-  {
-    id: 3,
-    title: 'GANİTA',
-    location: 'Bolu',
-    type: 'Restoran',
-    folder: 'ganitabolu',
-    slug: 'ganita',
-    images: [
-      "/projeler/ganitabolu/RENDER1.webp",
-      "/projeler/ganitabolu/RENDER2.webp",
-      "/projeler/ganitabolu/RENDER4.webp",
-      "/projeler/ganitabolu/RENDER5.webp",
-      "/projeler/ganitabolu/RENDER6.webp",
-      "/projeler/ganitabolu/RENDER8.webp",
-      "/projeler/ganitabolu/RENDER9.webp",
-      "/projeler/ganitabolu/RENDER12.webp",
-      "/projeler/ganitabolu/RENDER11.webp",
-      "/projeler/ganitabolu/RENDER13.webp",
-      "/projeler/ganitabolu/RENDER14.webp",
-      "/projeler/ganitabolu/RENDER16.webp",
-      "/projeler/ganitabolu/RENDER26.webp",
-    ],
-  },
-  {
-    id: 4,
-    title: 'VILLA S.B.',
-    location: 'Düzce',
-    type: 'Konut',
-    folder: 'villasb',
-    slug: 'villa-sb',
-    images: [
-      "/projeler/villasb/1.webp",
-      "/projeler/villasb/2.webp",
-      "/projeler/villasb/3.webp",
-      "/projeler/villasb/4.webp",
-      "/projeler/villasb/5.webp",
-      "/projeler/villasb/6.webp",
-      "/projeler/villasb/7.webp",
-      "/projeler/villasb/8.webp",
-      "/projeler/villasb/9.webp",
-      "/projeler/villasb/10.webp",
-      "/projeler/villasb/11.webp",
-      "/projeler/villasb/12.webp",
-    ],
-  },
-  {
-    id: 5,
-    title: 'VILLA N.Y.',
-    location: 'Bolu',
-    type: 'Konut',
-    folder: 'villanypeyzaj',
-    slug: 'villa-ny',
-    images: [
-      "/projeler/villanypeyzaj/1.webp",
-      "/projeler/villanypeyzaj/2.webp",
-    ],
-  },
-  {
-    id: 6,
-    title: 'VILLA E.B.',
-    location: 'İstanbul',
-    type: 'Konut',
-    folder: 'villaeb',
-    slug: 'villa-eb',
-    images: [
-      "/projeler/villaeb/1.webp",
-      "/projeler/villaeb/2.webp",
-      "/projeler/villaeb/3.webp",
-      "/projeler/villaeb/4.webp",
-      "/projeler/villaeb/5.webp",
-    ],
-  },
-  {
-    id: 7,
-    title: "JADE'S HOME",
-    location: 'Düzce',
-    type: 'Mağaza',
-    folder: 'jadeshomemagaza',
-    slug: 'jades-home',
-    images: [
-      "/projeler/jadeshomemagaza/1.webp",
-      "/projeler/jadeshomemagaza/2.webp",
-      "/projeler/jadeshomemagaza/3.webp",
-      "/projeler/jadeshomemagaza/4.webp",
-      "/projeler/jadeshomemagaza/5.webp",
-      "/projeler/jadeshomemagaza/6.webp",
-      "/projeler/jadeshomemagaza/7.webp",
-      "/projeler/jadeshomemagaza/8.webp",
-      "/projeler/jadeshomemagaza/9.webp",
-    ],
-  },
-  {
-    id: 8,
-    title: 'RESIDENCE 01',
-    location: 'Düzce',
-    type: 'Konut',
-    folder: 'residence01',
-    slug: 'residence-01',
-    images: [
-      "/projeler/residence01/1a.webp",
-      "/projeler/residence01/2a.webp",
-      "/projeler/residence01/3a.webp",
-      "/projeler/residence01/4a.webp",
-      "/projeler/residence01/5a.webp",
-      "/projeler/residence01/6a.webp",
-      "/projeler/residence01/7a.webp",
-      "/projeler/residence01/8a.webp",
-      "/projeler/residence01/9a.webp",
-      "/projeler/residence01/10a.webp",
-    ],
-  },
-]
+export const allProjects = projectsJson as Project[]
+
+/** Sitede ve sitemap'te yalnızca görünür projeler. */
+export const projects = allProjects.filter((project) => project.visible)
