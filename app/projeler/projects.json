@@ -125,7 +125,7 @@
     "type": "Mağaza",
     "folder": "jadeshomemagaza",
     "slug": "jades-home",
-    "visible": true,
+    "visible": false,
     "images": [
       "/projeler/jadeshomemagaza/1.webp",
       "/projeler/jadeshomemagaza/2.webp",
