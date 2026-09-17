@@ -177,5 +177,19 @@
       "/projeler/test1/8a5f6a0c004047aba2f4d2db039af904.webp",
       "/projeler/test1/1011cf740247450cb713424eea219c0c.webp"
     ]
+  },
+  {
+    "id": 10,
+    "title": "test4",
+    "location": "Düzce",
+    "type": "Atölye",
+    "folder": "test4",
+    "slug": "test4",
+    "visible": true,
+    "images": [
+      "/projeler/test4/760ba490d8994de8aaa6910b5114a454.webp",
+      "/projeler/test4/07926ebfc72f4364a31b8759d1558c05.webp",
+      "/projeler/test4/3600d3b112ef48b9bdbc67117035ab6b.webp"
+    ]
   }
 ]
