@@ -166,7 +166,7 @@
     "type": "Mağaza",
     "folder": "test1",
     "slug": "test1",
-    "visible": true,
+    "visible": false,
     "images": [
       "/projeler/test1/f87a350ecbfa481ba91a6920f3409158.webp",
       "/projeler/test1/38b100b749374596b763a9568cb33b0b.webp",
