@@ -182,10 +182,8 @@
     "type": "Atölye",
     "folder": "test4",
     "slug": "test4",
-    "visible": false,
+    "visible": true,
     "images": [
-      "/projeler/test4/760ba490d8994de8aaa6910b5114a454.webp",
-      "/projeler/test4/07926ebfc72f4364a31b8759d1558c05.webp",
       "/projeler/test4/3600d3b112ef48b9bdbc67117035ab6b.webp"
     ]
   }
