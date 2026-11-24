@@ -53,11 +53,9 @@
     "images": [
       "/projeler/ganitabolu/RENDER1.webp",
       "/projeler/ganitabolu/RENDER2.webp",
-      "/projeler/ganitabolu/RENDER4.webp",
       "/projeler/ganitabolu/RENDER5.webp",
       "/projeler/ganitabolu/RENDER6.webp",
       "/projeler/ganitabolu/RENDER8.webp",
-      "/projeler/ganitabolu/RENDER9.webp",
       "/projeler/ganitabolu/RENDER12.webp",
       "/projeler/ganitabolu/RENDER11.webp",
       "/projeler/ganitabolu/RENDER13.webp",
@@ -148,15 +146,12 @@
     "visible": true,
     "images": [
       "/projeler/residence01/1a.webp",
-      "/projeler/residence01/2a.webp",
       "/projeler/residence01/3a.webp",
       "/projeler/residence01/4a.webp",
-      "/projeler/residence01/5a.webp",
       "/projeler/residence01/6a.webp",
       "/projeler/residence01/7a.webp",
       "/projeler/residence01/8a.webp",
-      "/projeler/residence01/9a.webp",
-      "/projeler/residence01/10a.webp"
+      "/projeler/residence01/9a.webp"
     ]
   },
   {
